@@ -1,6 +1,8 @@
 "use client";
 
 import { Bar } from "react-chartjs-2";
+import { TooltipItem } from "chart.js";
+
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -93,7 +95,7 @@ export default function SoftwareChart() {
       tooltip: {
         title: { display: false },
         callbacks: {
-          label: function (context: any) {
+          label: function (context: TooltipItem<"bar">) {
             const idx = context.dataIndex;
             return descriptions[idx];
           },

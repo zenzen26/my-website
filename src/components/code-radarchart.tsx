@@ -2,6 +2,8 @@
 
 import React from "react";
 import { Radar } from "react-chartjs-2";
+import { ChartOptions } from "chart.js";
+
 import {
   Chart as ChartJS,
   RadialLinearScale,
@@ -48,7 +50,7 @@ const SKILLS: Record<SkillKey, number[]> = {
   "C++": [1, 1, 1, 3, 2],
 };
 
-function radarOptions(title: string): any {
+function radarOptions(title: string): ChartOptions<"radar"> {
   return {
     responsive: true,
     maintainAspectRatio: false,
