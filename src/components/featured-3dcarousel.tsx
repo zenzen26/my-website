@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 
 interface Card {
   image: string;
@@ -74,7 +75,9 @@ export default function ThreeDCarousel() {
     });
   };
 
-  useEffect(() => rotateCarousel(), [currentIndex]);
+useEffect(() => {
+    rotateCarousel();
+}, [currentIndex, rotateCarousel])
 
   const nextCard = () => setCurrentIndex((prev) => (prev + 1) % cardCount);
   const prevCard = () => setCurrentIndex((prev) => (prev - 1 + cardCount) % cardCount);
@@ -112,7 +115,7 @@ export default function ThreeDCarousel() {
             }}
           >
             <div className="h-[40%] w-full bg-black">
-                <img
+                <Image
                     src={card.image}
                     alt={card.title}
                     className="w-full h-full object-cover"
