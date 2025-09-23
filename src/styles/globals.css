@@ -1,0 +1,92 @@
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Silkscreen:wght@400;700&display=swap');
+@import 'tailwindcss';
+
+/* ✅ Define CSS variables for font usage */
+:root {
+  --font-heading: "Silkscreen", sans-serif;
+  --font-body: "Share Tech Mono", monospace;
+
+  /* Optional: colors */
+  --background: #ffffff;
+  --foreground: #000000;
+}
+
+/* ✅ Apply global body font */
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  margin: 0;
+  padding: 0;
+}
+
+  /* ✅ Apply heading font */
+  h1 {
+    font-family: var(--font-heading);
+    font-size: 6rem;
+    font-weight: 700;
+    letter-spacing: 5%;
+  }
+  h2 {
+    font-family: var(--font-heading);
+    font-size: 4rem;
+    font-weight: 700;
+    letter-spacing: 5%;
+  }
+  h3 {
+    font-family: var(--font-heading);
+    font-size: 3rem;
+    font-weight: 400;
+    letter-spacing: 5%;
+  }
+  h4 {
+    font-family: var(--font-heading);
+    font-size: 1.75rem;
+    font-weight: 400;
+    letter-spacing: 5%;
+  }
+
+  /* Body text variations */
+  .b1 { 
+    font-family: var(--font-body);
+    font-size: 1.75rem; 
+    font-weight: 400;
+  } 
+  .b2 { 
+    font-family: var(--font-body);
+    font-size: 1.25rem; 
+  } 
+  .b3 { 
+    font-family: var(--font-body);
+    font-size: 1rem; 
+  } 
+  .b4 { 
+    font-family: var(--font-body);
+    font-size: 0.875rem; 
+  } 
+
+  /* Containers */
+  .container-1 {
+    max-width: 1436px; 
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .img {
+    border-radius: 40px;
+  }
+
+  /* Buttons */
+  .btn {
+    background: black;
+    border: 2px solid black;
+    color:white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  .btn:hover {
+    background: white;   
+    color: black;
+  }
+
+
+  
