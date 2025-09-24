@@ -1,13 +1,14 @@
 import { useState } from "react";
-import CodeOverallChart from "@/components/codeoverall-barchart";
-import CodeRadarChart from "@/components/code-radarchart";
-import SoftwareChart from "@/components/software-barchart";
+import CodeOverallChart from "@/components/charts/codeoverall-barchart";
+import CodeRadarChart from "@/components/charts/code-radarchart";
+import SoftwareChart from "@/components/charts/software-barchart";
 import Carousel3D from "@/components/featured-3dcarousel";
+import Footer from "@/components/footer";
 
 
 
 export default function Home() {
-  const [activeTab, setActiveTab] = useState<"coding" | "software" | "overview">("coding");
+  const [activeTab, setActiveTab] = useState<"coding" | "software" | "overview">("overview");
   return (
     <main className="">
       <section className="space-y-5 py-20">
@@ -141,6 +142,7 @@ export default function Home() {
           </div>
         </div>
       </section>
+      <Footer/>
     </main>
 
   );
