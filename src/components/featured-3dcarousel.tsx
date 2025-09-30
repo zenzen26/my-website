@@ -7,6 +7,7 @@ interface Card {
   image: string;
   title: string;
   description: string;
+  Featured?: string;
 }
 
 export default function ThreeDCarousel() {
@@ -25,16 +26,16 @@ export default function ThreeDCarousel() {
     fetch("/projects.csv")
       .then((res) => res.text())
       .then((csvText) => {
-        Papa.parse(csvText, {
+        Papa.parse<Card>(csvText, {
           header: true,
           skipEmptyLines: true,
           complete: (results) => {
-            const featuredCards: Card[] = results.data
-              .filter((row: any) => row.Featured?.toLowerCase() === "true")
-              .map((row: any) => ({
-                title: row["Title"] || "",
+            const featuredCards = results.data
+              .filter((row) => row.Featured?.toLowerCase() === "true")
+              .map((row) => ({
+                title: row.Title || "",
                 description: row["Short Description"] || "",
-                image: row["Thumbnail"] || "",
+                image: row.Thumbnail || "",
               }));
             setCards(featuredCards);
           },
@@ -46,6 +47,7 @@ export default function ThreeDCarousel() {
 
   const rotateCarousel = useCallback(() => {
     if (!trackRef.current) return;
+
     Array.from(trackRef.current.children).forEach((cardEl, i) => {
       const diffRaw = i - currentIndex;
       let diff = (diffRaw + cardCount) % cardCount;
@@ -122,6 +124,10 @@ export default function ThreeDCarousel() {
 
   useEffect(() => rotateCarousel(), [currentIndex, rotateCarousel]);
 
+  const stopAutoRotate = useCallback(() => {
+    if (autoRotateRef.current) clearInterval(autoRotateRef.current);
+  }, []);
+
   const nextCard = useCallback(() => setCurrentIndex((prev) => (prev + 1) % cardCount), [cardCount]);
   const prevCard = useCallback(() => setCurrentIndex((prev) => (prev - 1 + cardCount) % cardCount), [cardCount]);
 
@@ -129,10 +135,6 @@ export default function ThreeDCarousel() {
     stopAutoRotate();
     autoRotateRef.current = setInterval(nextCard, 3000);
   }, [nextCard, stopAutoRotate]);
-
-  const stopAutoRotate = useCallback(() => {
-    if (autoRotateRef.current) clearInterval(autoRotateRef.current);
-  }, []);
 
   useEffect(() => startAutoRotate(), [startAutoRotate]);
 
@@ -159,7 +161,7 @@ export default function ThreeDCarousel() {
               else prevCard();
             }}
           >
-            <div className="h-[40%] w-full bg-black relative">
+            <div className="h-[40%] w-full bg-black relative overflow-hidden">
               <Image src={card.image} alt={card.title} className="w-full h-full object-cover" fill />
             </div>
             <div className="items-start justify-center w-full p-5 space-y-3">
