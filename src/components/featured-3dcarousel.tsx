@@ -3,18 +3,24 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import Image from "next/image";
 import Papa from "papaparse";
 
-interface Card {
-  image: string;
+interface CSVRow {
+  Title?: string;
+  "Short Description"?: string;
+  Thumbnail?: string;
+  Featured?: string;
+}
+
+interface CarouselCard {
   title: string;
   description: string;
-  Featured?: string;
+  image: string;
 }
 
 export default function ThreeDCarousel() {
   const trackRef = useRef<HTMLDivElement>(null);
   const autoRotateRef = useRef<NodeJS.Timeout | null>(null);
 
-  const [cards, setCards] = useState<Card[]>([]);
+  const [cards, setCards] = useState<CarouselCard[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const radius = 300;
@@ -26,16 +32,16 @@ export default function ThreeDCarousel() {
     fetch("/projects.csv")
       .then((res) => res.text())
       .then((csvText) => {
-        Papa.parse(csvText, {
+        Papa.parse<CSVRow>(csvText, {
           header: true,
           skipEmptyLines: true,
           complete: (results) => {
-            const featuredCards: Card[] = (results.data as any[])
+            const featuredCards: CarouselCard[] = results.data
               .filter((row) => row.Featured?.toLowerCase() === "true")
-              .map((row) => ({
-                title: row["Title"] || "",
-                description: row["Short Description"] || "",
-                image: row["Thumbnail"] || "",
+              .map(({ Title = "", "Short Description": desc = "", Thumbnail = "" }) => ({
+                title: Title,
+                description: desc,
+                image: Thumbnail,
               }));
             setCards(featuredCards);
           },
@@ -161,11 +167,11 @@ export default function ThreeDCarousel() {
               else prevCard();
             }}
           >
-            <div className="h-[40%] w-full bg-black relative overflow-hidden">
+            <div className="h-[40%] w-full bg-black relative overflow-hidden rounded-t-xl">
               <Image src={card.image} alt={card.title} className="w-full h-full object-cover" fill />
             </div>
             <div className="items-start justify-center w-full p-5 space-y-3">
-              <h4>{card.title}</h4>
+              <h4 className="font-bold">{card.title}</h4>
               <p className="b2">{card.description}</p>
             </div>
           </div>
