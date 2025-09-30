@@ -26,16 +26,16 @@ export default function ThreeDCarousel() {
     fetch("/projects.csv")
       .then((res) => res.text())
       .then((csvText) => {
-        Papa.parse<Card>(csvText, {
+        Papa.parse(csvText, {
           header: true,
           skipEmptyLines: true,
           complete: (results) => {
-            const featuredCards = results.data
+            const featuredCards: Card[] = (results.data as any[])
               .filter((row) => row.Featured?.toLowerCase() === "true")
               .map((row) => ({
-                title: row.Title || "",
+                title: row["Title"] || "",
                 description: row["Short Description"] || "",
-                image: row.Thumbnail || "",
+                image: row["Thumbnail"] || "",
               }));
             setCards(featuredCards);
           },
