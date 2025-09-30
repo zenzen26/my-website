@@ -128,7 +128,7 @@ export default function ThreeDCarousel() {
   const startAutoRotate = useCallback(() => {
     stopAutoRotate();
     autoRotateRef.current = setInterval(nextCard, 3000);
-  }, [nextCard]);
+  }, [nextCard, stopAutoRotate]);
 
   const stopAutoRotate = useCallback(() => {
     if (autoRotateRef.current) clearInterval(autoRotateRef.current);
