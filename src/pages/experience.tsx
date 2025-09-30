@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import NavBar from "@/components/navbar";
 import Footer from "@/components/footer";
 import { motion } from "framer-motion";
 
@@ -57,7 +58,8 @@ export default function Experience() {
 
   return (
     <main>
-      <section className="space-y-5 py-20">
+      <NavBar/>
+      <section className="section">
         <div className="container-1 space-y-10 flex flex-col items-start justify-center">
           <h1>Experience</h1>
           <p className="b2"><strong><i>Last Modified on 12 Oct 2025 ... </i></strong></p>

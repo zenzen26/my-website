@@ -63,30 +63,37 @@ body {
     font-family: var(--font-body);
     font-size: 0.875rem; 
   } 
+  .tag {
+    font-family: var(--font-body);
+    font-size: 0.5rem; 
+  }
 
   /* Containers */
+  .section {
+     @apply space-y-5 py-25;
+  }
   .container-1 {
-    max-width: 1436px; 
-    margin-left: auto;
-    margin-right: auto;
+    @apply max-w-[1436px] mx-auto;
   }
 
   .img {
-    border-radius: 40px;
+    @apply rounded-[40px];
   }
 
   /* Buttons */
   .btn {
-    background: black;
-    border: 2px solid black;
-    color:white;
-    cursor: pointer;
-    transition: all 0.3s ease;
+    @apply bg-black border-2 border-black text-white cursor-pointer transition-all duration-300 ease-in-out;
   }
+
   .btn:hover {
-    background: white;   
-    color: black;
+    @apply bg-white text-black;
   }
+
+  /* Card */
+  .card-1 {
+    @apply rounded-2xl border-2 border-black bg-white shadow-lg cursor-pointer;
+  }
+
 
 
   

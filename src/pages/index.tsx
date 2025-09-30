@@ -1,4 +1,5 @@
 import { useState } from "react";
+import NavBar from "@/components/navbar";
 import CodeOverallChart from "@/components/charts/codeoverall-barchart";
 import CodeRadarChart from "@/components/charts/code-radarchart";
 import SoftwareChart from "@/components/charts/software-barchart";
@@ -11,7 +12,8 @@ export default function Home() {
   const [activeTab, setActiveTab] = useState<"coding" | "software" | "overview">("overview");
   return (
     <main className="">
-      <section className="space-y-5 py-20">
+      <NavBar/>
+      <section className="section">
         <div className="container-1 space-y-10 flex flex-col items-start justify-center">
           <div className="w-full flex items-center justify-between">
             <div className="flex flex-col items-start">
@@ -32,7 +34,9 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <section className="space-y-5 py-20">
+
+      {/* About Section */}
+      <section className="section">
         <div className="container-1 space-y-10 flex flex-col items-center justify-center">
           <div className="flex flex-col items-center justify-center">
             <h1>- About -</h1>
@@ -60,7 +64,22 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <section className="space-y-5 py-20">
+
+      {/* Featured Section */}
+      <section className="section">
+        <div className="container-1 space-y-10 flex flex-col items-center justify-center">
+          <div className="flex flex-col items-center justify-center">
+            <h1>- Featured -</h1>
+            <p className="b1">Cras ullamcorper tempor arcu Vestibulum interdum</p>
+          </div>
+          <div className="w-full flex items-center justify-center">
+            <Carousel3D />
+          </div>
+        </div>
+      </section>
+
+      {/* Skills Section */}
+      <section className="section">
         <div className="container-1 space-y-10 flex flex-col items-start justify-center">
           <div className="flex flex-col items-start justify-center">
             <h1>Skills -</h1>
@@ -131,17 +150,7 @@ export default function Home() {
 
         </div>
       </section>
-      <section className="space-y-5 py-20">
-        <div className="container-1 space-y-10 flex flex-col items-center justify-center">
-          <div className="flex flex-col items-center justify-center">
-            <h1>- Featured -</h1>
-            <p className="b1">Cras ullamcorper tempor arcu Vestibulum interdum</p>
-          </div>
-          <div className="w-full flex items-center justify-center">
-            <Carousel3D />
-          </div>
-        </div>
-      </section>
+
       <Footer/>
     </main>
 
