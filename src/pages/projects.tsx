@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import NavBar from "@/components/navbar";
 import Papa from "papaparse";
+import Footer from "@/components/footer";
 
 interface ProjectCard {
   Title: string;
@@ -81,6 +82,7 @@ export default function Projects() {
           </div>
         </div>
       </section>
+      <Footer/>
     </main>
   );
 }

@@ -5,16 +5,12 @@ export default function Footer() {
   return (
     <footer className="bg-black text-white section">
       <div className="container-1 mx-auto flex flex-col space-y-4 px-4">
-        <h2 className="text-2xl font-bold mb-4">Contact Me</h2>
+        <h2 className="mb-4">Contact Me</h2>
 
         {/* Contact info */}
         <div className="flex flex-col space-y-2 b3">
-          <a href="mailto:thamzien@gmail.com" className="hover:bold">
-            Email: thamzien@gmail.com
-          </a>
-          <a href="tel:+61450190503" className="hover:bold">
-            Phone: +61 450 190 503
-          </a>
+          <a href="mailto:thamzien@gmail.com">Email: <span className="hover:underline">thamzien@gmail.com</span></a>
+          <a href="tel:+61450190503">Phone: <span className="hover:underline">+61 450 190 503</span></a>   
           <Link
             href="/resume.pdf"
             target="_blank"
