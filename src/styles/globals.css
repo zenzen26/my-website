@@ -9,6 +9,8 @@
   /* Optional: colors */
   --background: #ffffff;
   --foreground: #000000;
+
+  scroll-behavior: smooth;
 }
 
 /* ✅ Apply global body font */
@@ -19,61 +21,59 @@ body {
   padding: 0;
 }
 
-  /* ✅ Apply heading font */
-  h1 {
-    font-family: var(--font-heading);
-    font-size: 6rem;
-    font-weight: 700;
-    letter-spacing: 5%;
-  }
-  h2 {
-    font-family: var(--font-heading);
-    font-size: 4rem;
-    font-weight: 700;
-    letter-spacing: 5%;
-  }
-  h3 {
-    font-family: var(--font-heading);
-    font-size: 3rem;
-    font-weight: 400;
-    letter-spacing: 5%;
-  }
-  h4 {
-    font-family: var(--font-heading);
-    font-size: 1.75rem;
-    font-weight: 400;
-    letter-spacing: 5%;
-  }
+  h1 { 
+    @apply font-bold text-[4.2rem] md:text-[6rem] tracking-[0.05em]; 
+    font-family: var(--font-heading); 
+}
 
-  /* Body text variations */
-  .b1 { 
+h2 {
+    @apply font-bold text-[2.8rem] md:text-[4rem] tracking-[0.05em];
+    font-family: var(--font-heading);
+}
+
+h3 {
+    @apply font-normal text-[2.1rem] md:text-[3rem] tracking-[0.05em];
+    font-family: var(--font-heading);
+}
+
+h4 {
+    @apply font-normal text-[1.225rem] md:text-[1.75rem] tracking-[0.05em];
+    font-family: var(--font-heading);
+}
+
+.b1 {
+    @apply font-normal text-[1.225rem] md:text-[1.75rem];
     font-family: var(--font-body);
-    font-size: 1.75rem; 
-    font-weight: 400;
-  } 
-  .b2 { 
+}
+
+.b2 {
+    @apply text-[0.875rem] md:text-[1.25rem];
     font-family: var(--font-body);
-    font-size: 1.25rem; 
-  } 
-  .b3 { 
+}
+
+.b3 {
+    @apply text-[0.7rem] md:text-[1rem];
     font-family: var(--font-body);
-    font-size: 1rem; 
-  } 
-  .b4 { 
+}
+
+.b4 {
+    @apply text-[0.6125rem] md:text-[0.875rem];
     font-family: var(--font-body);
-    font-size: 0.875rem; 
-  } 
-  .tag {
+}
+
+.tag {
+    @apply text-[0.49rem] md:text-[0.7rem];
     font-family: var(--font-body);
-    font-size: 0.7rem; 
-  }
+}
+
+
 
   /* Containers */
   .section {
      @apply space-y-5 py-25;
   }
   .container-1 {
-    @apply max-w-[1436px] mx-auto;
+    @apply max-w-[1436px] px-10 mx-auto;
   }
 
   .img {
