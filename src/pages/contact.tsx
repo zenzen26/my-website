@@ -1,9 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import Image from "next/image";
 import NavBar from "@/components/navbar";
-import Papa from "papaparse";
 import Footer from "@/components/footer";
 
 
@@ -15,7 +12,7 @@ export default function Contact() {
       <NavBar />
       <section className="section">
         <div className="container-1 space-y-10 flex flex-col items-start justify-center">
-          <h1 className="">Let's Connect</h1>
+          <h1 className="">Let&apos;s Connect</h1>
           <div className="w-full flex justify-between">
             <div className="w-full max-w-[1/2] flex flex-col b1 space-y-2">
               <a href="mailto:thamzien@gmail.com">Email: <span className="hover:underline">thamzien@gmail.com</span></a>

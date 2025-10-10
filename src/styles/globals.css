@@ -79,6 +79,7 @@ body {
   .img {
     @apply rounded-[40px];
   }
+  
 
   /* Buttons */
   .btn {

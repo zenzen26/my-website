@@ -7,8 +7,8 @@ export default function NavBar() {
     <nav className="bg-black text-white py-4 shadow-md">
       <div className="container-1 mx-auto flex justify-between items-center px-4">
         {/* Logo / Name */}
-        <Link href="/" className="text-xl font-bold hover:text-gray-300">
-          MyPortfolio
+        <Link href="/" className="hover:text-gray-300">
+          <h4>My Website</h4>
         </Link>
 
         {/* Nav Links */}
