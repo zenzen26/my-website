@@ -107,7 +107,7 @@ export default function Home() {
       <section id="about" className="section">
         <div className="container-1 space-y-10 flex flex-col items-center justify-center">
           <div className="flex flex-col items-center justify-center">
-            <h1 className="pb-5 md:pb-0"><span className="hidden sm:contents">- </span> About <span className="hidden sm:contents">- </span> </h1>
+            <h1 className="pb-5 lg:pb-0"><span className="hidden sm:contents">- </span> About <span className="hidden sm:contents">- </span> </h1>
             <p className="b1 text-center text-gray-500">A little about me, my work, and what I’m passionate about</p>
           </div>
 
@@ -148,7 +148,7 @@ export default function Home() {
       <section id="skills" className="section">
         <div className="container-1 space-y-10 flex flex-col items-start justify-center">
           <div className="flex flex-col items-start justify-center">
-            <h1 className="pb-5 md:pb-10 ">Skills<span className="hidden sm:contents"> -</span></h1>
+            <h1 className="pb-5 lg:pb-0 ">Skills<span className="hidden sm:contents"> -</span></h1>
             <div className="w-full flex items-center gap-2 sm:gap-10">
               <button
                 className={`btn b2 py-2 px-5 sm:px-8 ${activeTab === "overview" ? "bg-black text-white" : ""}`}
@@ -203,8 +203,8 @@ export default function Home() {
           </div>
 
            {/* Coding Skills */}
-          <div className={activeTab === "coding" ? "w-full flex items-stretch justify-between gap-10" : "hidden"}>
-            <div className="max-w-[100%] max-h-[350px] sm:max-w-[45%] w-full"><CodeOverallChart /></div>
+          <div className={activeTab === "coding" ? "w-full flex items-stretch justify-between gap-4 lg:gap-10" : "hidden"}>
+            <div className="max-w-[100%] max-h-[450px] sm:max-h-none sm:max-w-[45%] w-full"><CodeOverallChart /></div>
             <div className="hidden sm:block sm:max-w-[55%] w-full"><CodeRadarChart /></div>
           </div>
 
@@ -221,7 +221,7 @@ export default function Home() {
       <section id="featured" className="section">
         <div className="container-1 space-y-10 flex flex-col items-center justify-center">
           <div className="flex flex-col items-center justify-center">
-            <h1 className="pb-5 md:pb-0 "><span className="hidden sm:contents">- </span> Featured <span className="hidden sm:contents"> -</span></h1>
+            <h1 className="pb-5 lg:pb-0"><span className="hidden sm:contents">- </span> Featured <span className="hidden sm:contents"> -</span></h1>
             <p className="b1 text-left sm:text-center text-gray-500">Some of my proudest projects</p>
           </div>
           <div className="w-full flex items-center justify-center">

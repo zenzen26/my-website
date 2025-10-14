@@ -27,7 +27,7 @@ export default function ThreeDCarousel() {
   const sideOffset = 250;
   const scaleFactor = 0.8;
 
-  // Fetch CSV from public folder
+  // --- Load CSV data ---
   useEffect(() => {
     fetch("/projects.csv")
       .then((res) => res.text())
@@ -51,9 +51,9 @@ export default function ThreeDCarousel() {
 
   const cardCount = cards.length;
 
+  // --- Rotate carousel ---
   const rotateCarousel = useCallback(() => {
     if (!trackRef.current) return;
-
     Array.from(trackRef.current.children).forEach((cardEl, i) => {
       const diffRaw = i - currentIndex;
       let diff = (diffRaw + cardCount) % cardCount;
@@ -130,6 +130,7 @@ export default function ThreeDCarousel() {
 
   useEffect(() => rotateCarousel(), [currentIndex, rotateCarousel]);
 
+  // --- Auto rotation ---
   const stopAutoRotate = useCallback(() => {
     if (autoRotateRef.current) clearInterval(autoRotateRef.current);
   }, []);
@@ -144,6 +145,55 @@ export default function ThreeDCarousel() {
 
   useEffect(() => startAutoRotate(), [startAutoRotate]);
 
+  // --- Swipe / Drag ---
+  useEffect(() => {
+    const track = trackRef.current;
+    if (!track) return;
+
+    let startX = 0;
+    let endX = 0;
+    let isDragging = false;
+
+    const handleSwipe = () => {
+      const diff = endX - startX;
+      if (Math.abs(diff) < 30) return;
+      stopAutoRotate();
+      if (diff > 0) prevCard(); // right swipe
+      else nextCard(); // left swipe
+      startX = 0;
+      endX = 0;
+    };
+
+    // Touch events
+    const onTouchStart = (e: TouchEvent) => { startX = e.touches[0].clientX; };
+    const onTouchMove = (e: TouchEvent) => { endX = e.touches[0].clientX; };
+    const onTouchEnd = () => handleSwipe();
+
+    // Mouse events
+    const onMouseDown = (e: MouseEvent) => { isDragging = true; startX = e.clientX; };
+    const onMouseMove = (e: MouseEvent) => { if (!isDragging) return; endX = e.clientX; };
+    const onMouseUp = () => { if (!isDragging) return; isDragging = false; handleSwipe(); };
+    const onMouseLeave = () => { if (isDragging) { isDragging = false; handleSwipe(); } };
+
+    track.addEventListener("touchstart", onTouchStart);
+    track.addEventListener("touchmove", onTouchMove);
+    track.addEventListener("touchend", onTouchEnd);
+    track.addEventListener("mousedown", onMouseDown);
+    track.addEventListener("mousemove", onMouseMove);
+    track.addEventListener("mouseup", onMouseUp);
+    track.addEventListener("mouseleave", onMouseLeave);
+
+    return () => {
+      track.removeEventListener("touchstart", onTouchStart);
+      track.removeEventListener("touchmove", onTouchMove);
+      track.removeEventListener("touchend", onTouchEnd);
+      track.removeEventListener("mousedown", onMouseDown);
+      track.removeEventListener("mousemove", onMouseMove);
+      track.removeEventListener("mouseup", onMouseUp);
+      track.removeEventListener("mouseleave", onMouseLeave);
+    };
+  }, [prevCard, nextCard, stopAutoRotate]);
+
   if (cards.length === 0) return <p>Loading featured projects...</p>;
 
   return (
@@ -156,15 +206,6 @@ export default function ThreeDCarousel() {
           <div
             key={i}
             className="absolute top-1/2 left-1/2 flex flex-col items-center justify-start w-[300px] h-[390px] md:w-[400px] md:h-[520px] lg:w-[500px] lg:h-[650px] rounded-xl border-2 border-black bg-white shadow-lg cursor-pointer transition-all duration-500 overflow-hidden"
-            onClick={() => {
-              stopAutoRotate();
-              const diffRaw = i - currentIndex;
-              let diff = (diffRaw + cardCount) % cardCount;
-              if (diff > cardCount / 2) diff -= cardCount;
-              if (diff === 0) return;
-              else if (diff > 0) nextCard();
-              else prevCard();
-            }}
           >
             <div className="h-[40%] w-full bg-black relative overflow-hidden rounded-t-xl">
               <Image src={card.image} alt={card.title} className="w-full h-full object-cover" fill />
