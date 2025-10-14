@@ -150,13 +150,12 @@ export default function ThreeDCarousel() {
     <div className="flex w-full justify-center items-center perspective-[1500px] my-10">
       <div
         ref={trackRef}
-        className="relative w-[1200px] h-[600px] transform-gpu transition-transform duration-500 overflow-visible"
+        className="relative w-[720px] h-[360px] md:w-[960px] md:h-[480px] lg:w-[1200px] lg:h-[600px] transform-gpu transition-transform duration-500 overflow-visible"
       >
         {cards.map((card, i) => (
           <div
             key={i}
-            className="absolute top-1/2 left-1/2 flex flex-col items-center justify-start rounded-xl border-2 border-black bg-white shadow-lg cursor-pointer transition-all duration-500 overflow-hidden"
-            style={{ width: 500, height: 650 }}
+            className="absolute top-1/2 left-1/2 flex flex-col items-center justify-start w-[300px] h-[390px] md:w-[400px] md:h-[520px] lg:w-[500px] lg:h-[650px] rounded-xl border-2 border-black bg-white shadow-lg cursor-pointer transition-all duration-500 overflow-hidden"
             onClick={() => {
               stopAutoRotate();
               const diffRaw = i - currentIndex;

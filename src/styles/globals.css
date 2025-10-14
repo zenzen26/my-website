@@ -14,63 +14,76 @@
 }
 
 /* ✅ Apply global body font */
-body {
-  background-color: var(--background);
-  color: var(--foreground);
-  margin: 0;
-  padding: 0;
-}
 
-  h1 { 
-    @apply font-bold text-[4.2rem] md:text-[6rem] tracking-[0.05em]; 
-    font-family: var(--font-heading); 
+html {
+    font-size: 16px;
+    background-color: var(--background);
+    color: var(--foreground);
+    scroll-behavior: smooth;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+h1 { 
+  @apply font-bold text-[3rem] md:text-[4.2rem] lg:text-[4.8rem] 2xl:text-[6rem] tracking-[0.05em] leading-none; 
+  font-family: var(--font-heading); 
 }
 
 h2 {
-    @apply font-bold text-[2.8rem] md:text-[4rem] tracking-[0.05em];
-    font-family: var(--font-heading);
+  @apply font-bold text-[2.4rem] md:text-[2.8rem] lg:text-[3.2rem] 2xl:text-[4rem] tracking-[0.05em];
+  font-family: var(--font-heading);
 }
 
 h3 {
-    @apply font-normal text-[2.1rem] md:text-[3rem] tracking-[0.05em];
-    font-family: var(--font-heading);
+  @apply font-normal text-[1.8rem] md:text-[2.1rem] lg:text-[2.4rem] 2xl:text-[3rem] tracking-[0.05em];
+  font-family: var(--font-heading);
 }
 
 h4 {
-    @apply font-normal text-[1.225rem] md:text-[1.75rem] tracking-[0.05em];
-    font-family: var(--font-heading);
+  @apply font-normal text-[1.05rem] md:text-[1.225rem] lg:text-[1.4rem] 2xl:text-[1.75rem] tracking-[0.05em];
+  font-family: var(--font-heading);
 }
 
 .b1 {
-    @apply font-normal text-[1.225rem] md:text-[1.75rem];
-    font-family: var(--font-body);
+  @apply font-normal text-[1.05rem] md:text-[1.225rem] lg:text-[1.4rem] 2xl:text-[1.75rem];
+  font-family: var(--font-body);
 }
 
-.b2 {
-    @apply text-[0.875rem] md:text-[1.25rem];
-    font-family: var(--font-body);
+@utility b2 {
+  @apply text-[0.875rem] md:text-[1rem] 2xl:text-[1.25rem];
+  font-family: var(--font-body);
 }
 
-.b3 {
-    @apply text-[0.7rem] md:text-[1rem];
-    font-family: var(--font-body);
+@utility b3 {
+  @apply text-[0.7rem] md:text-[0.8rem] 2xl:text-[1rem];
+  font-family: var(--font-body);
 }
 
-.b4 {
-    @apply text-[0.6125rem] md:text-[0.875rem];
-    font-family: var(--font-body);
+@utility b4 {
+  @apply text-[0.6125rem] md:text-[0.7rem] 2xl:text-[0.875rem];
+  font-family: var(--font-body);
 }
 
-.tag {
-    @apply text-[0.49rem] md:text-[0.7rem];
-    font-family: var(--font-body);
+@utility tag {
+  @apply text-[0.49rem] md:text-[0.56rem] 2xl:text-[0.7rem];
+  font-family: var(--font-body);
 }
+
 
 
 
   /* Containers */
   .section {
-     @apply space-y-5 py-25;
+     @apply space-y-5 py-10 md:py-15 lg:py-25;
   }
   .container-1 {
     @apply max-w-[1436px] px-10 mx-auto;
