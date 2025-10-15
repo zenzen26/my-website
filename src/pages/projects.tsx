@@ -44,7 +44,7 @@ export default function Projects() {
                 href={card.Link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="h-[600px] card-1 block"
+                className="h-[350px] sm:h-[450px] md:h-[550px] lg:h-[600px] card-1 block"
               >
                 <div className="h-[40%] w-full relative overflow-hidden rounded-t-xl">
                   <Image

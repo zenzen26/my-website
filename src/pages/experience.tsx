@@ -65,59 +65,80 @@ export default function Experience() {
           <p className="b2"><strong><i>Last Modified on 12 Oct 2025 ... </i></strong></p>
 
           <div ref={containerRef} className="relative w-full max-w-5xl mx-auto my-20 py-20">
-           <div className="absolute left-1/2 top-0 h-full w-[3px] -translate-x-1/2 bg-gray-300">
-                <div
-                    className="absolute top-0 left-0 w-full bg-black"
-                    style={{ height: `${Math.min(Math.max(progress, 0), 1) * 100}%` }}
-                />
-            </div>
-            <span className="absolute -top-6 left-1/2 -translate-x-1/2 whitespace-nowrap text-center b3"><strong>Present</strong></span>
-            <span className="absolute -bottom-6 left-1/2 -translate-x-1/2 whitespace-nowrap text-center b3"><strong>Took my first breath</strong></span>
+  {/* Vertical line — centered on md+, left on mobile */}
+  <div
+    className="absolute top-0 h-full w-[3px] bg-gray-300
+               left-4 md:left-1/2 md:-translate-x-1/2"
+  >
+    {/* fill/progress bar */}
+    <div
+      className="absolute top-0 left-0 w-full bg-black"
+      style={{ height: `${Math.min(Math.max(progress, 0), 1) * 100}%` }}
+    />
+  </div>
 
-            <div className="space-y-32">
-              {events.map((event, i) => {
-                const side = i % 2 === 0 ? "left" : "right";
+  {/* Top and bottom labels */}
+  <span className="absolute -top-6 left-4 md:left-1/2 md:-translate-x-1/2 whitespace-nowrap text-center b3">
+    <strong>Present</strong>
+  </span>
+  <span className="absolute -bottom-6 left-4 md:left-1/2 md:-translate-x-1/2 whitespace-nowrap text-center b3">
+    <strong>Took my first breath</strong>
+  </span>
 
-                // Determine if the card should be visible
-                let isVisible = false;
-                if (itemRefs.current[i]) {
-                  const containerRect = containerRef.current!.getBoundingClientRect();
-                  const itemRect = itemRefs.current[i]!.getBoundingClientRect();
-                  const itemCenterY = itemRect.top - containerRect.top + itemRect.height / 2;
-                  const fillHeight = progress * containerRect.height;
-                  isVisible = fillHeight >= itemCenterY * 0.7; //Change here to adjust how early the card should appear
-                }
-                // first two card always visible
-                if (i === 0 || i === 1) isVisible = true;
+  <div className="space-y-32">
+    {events.map((event, i) => {
+      const side = i % 2 === 0 ? "left" : "right";
 
-                return (
-                  <div key={i} className="relative flex w-full items-center">
-                    {/* Dot */}
-                    <div
-                      className={`absolute left-1/2 -translate-x-1/2 rounded-full z-10 w-[20px] h-[20px] ${
-                        isVisible ? "bg-black" : "bg-gray-300"
-                      }`}
-                    />
+      // visibility logic
+      let isVisible = false;
+      if (itemRefs.current[i]) {
+        const containerRect = containerRef.current!.getBoundingClientRect();
+        const itemRect = itemRefs.current[i]!.getBoundingClientRect();
+        const itemCenterY = itemRect.top - containerRect.top + itemRect.height / 2;
+        const fillHeight = progress * containerRect.height;
+        isVisible = fillHeight >= itemCenterY * 0.7;
+      }
+      if (i === 0 || i === 1) isVisible = true;
 
-                    {/* Card */}
-                    <motion.div
-                        ref={(el) => { itemRefs.current[i] = el; }}
-                        initial={{ opacity: 0, y: 40 }}
-                        animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
-                        transition={{ duration: 0.6, ease: "easeOut" }}
-                        className={`w-5/12 p-6 space-y-2 bg-white border border-black rounded-[20px] shadow-md ${
-                            side === "left" ? "mr-auto text-right" : "ml-auto text-left"
-                        }`}
-                    >
-                      <p className="b3 text-gray-500">{event.date}</p>
-                      <h4>{event.title}</h4>
-                      <p className="b4 whitespace-pre-line">{event.description}</p>
-                    </motion.div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
+      return (
+        <div key={i} className="relative w-full">
+          {/* Dot — left on mobile, centered on md+ */}
+          <div
+            className={`absolute z-10 w-5 h-5 rounded-full
+                        left-2 md:left-1/2 md:-translate-x-1/2
+                        ${isVisible ? "bg-black" : "bg-gray-300"}`}
+          />
+
+          {/* Card */}
+          <motion.div
+            ref={el => (itemRefs.current[i] = el)}
+            initial={{ opacity: 0, y: 40 }}
+            animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            className={`
+              relative bg-white border border-black rounded-[20px] shadow-md p-6 space-y-2
+              w-[calc(100%-64px)] ml-[64px]
+              md:w-5/12 md:ml-0 md:mr-0
+
+              /* Alternating positions for md+ */
+              ${side === "left"
+                ? "md:mr-auto md:text-right"
+                : "md:ml-auto md:text-left"}
+
+              /* Default (mobile) always on right of line */
+              text-left
+            `}
+          >
+            <p className="b3 text-gray-500">{event.date}</p>
+            <h4>{event.title}</h4>
+            <p className="b4 whitespace-pre-line">{event.description}</p>
+          </motion.div>
+        </div>
+      );
+    })}
+  </div>
+</div>
+
         </div>
       </section>
       <Footer />

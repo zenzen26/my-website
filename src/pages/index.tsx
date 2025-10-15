@@ -148,7 +148,7 @@ export default function Home() {
       <section id="skills" className="section">
         <div className="container-1 space-y-10 flex flex-col items-start justify-center">
           <div className="flex flex-col items-start justify-center">
-            <h1 className="pb-5 lg:pb-0 ">Skills<span className="hidden sm:contents"> -</span></h1>
+            <h1 className="pb-5">Skills<span className="hidden sm:contents"> -</span></h1>
             <div className="w-full flex items-center gap-2 sm:gap-10">
               <button
                 className={`btn b2 py-2 px-5 sm:px-8 ${activeTab === "overview" ? "bg-black text-white" : ""}`}
@@ -203,9 +203,14 @@ export default function Home() {
           </div>
 
            {/* Coding Skills */}
-          <div className={activeTab === "coding" ? "w-full flex items-stretch justify-between gap-4 lg:gap-10" : "hidden"}>
-            <div className="max-w-[100%] max-h-[450px] sm:max-h-none sm:max-w-[45%] w-full"><CodeOverallChart /></div>
-            <div className="hidden sm:block sm:max-w-[55%] w-full"><CodeRadarChart /></div>
+          <div className={activeTab === "coding" ? "w-full flex flex-col sm:flex-row items-stretch justify-between gap-4 lg:gap-10" : "hidden"}>
+            <div className="w-full sm:max-w-[45%] h-[350px] sm:h-auto">
+              <CodeOverallChart />
+            </div>
+
+            <div className="hidden sm:block sm:w-full sm:max-w-[55%] h-[350px] sm:h-auto">
+              <CodeRadarChart />
+            </div>
           </div>
 
           {/* Software Skills */}

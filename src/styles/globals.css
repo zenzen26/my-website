@@ -96,7 +96,7 @@ h4 {
 
   /* Buttons */
   .btn {
-    @apply bg-black border-2 border-black text-white cursor-pointer transition-all duration-300 ease-in-out;
+    @apply bg-black border-2 border-black text-white text-center cursor-pointer transition-all duration-300 ease-in-out;
   }
 
   .btn:hover {
@@ -110,7 +110,5 @@ h4 {
   .card-1:hover {
     @apply transition-transform duration-300 ease-out scale-105;
   }
-
-
 
   
