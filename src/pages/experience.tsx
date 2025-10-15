@@ -111,7 +111,7 @@ export default function Experience() {
 
           {/* Card */}
           <motion.div
-            ref={el => (itemRefs.current[i] = el)}
+            ref={(el) => void (itemRefs.current[i] = el)}
             initial={{ opacity: 0, y: 40 }}
             animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
