@@ -6,7 +6,6 @@ import path from 'path'
 
 export default defineConfig({
   plugins: [react(), tailwindcss()],
-  // NO base property needed!
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
@@ -18,5 +17,8 @@ export default defineConfig({
   },
   build: {
     outDir: 'dist',
-  }
+  },
+  esbuild: {
+    drop: ['console', 'debugger'], // Optional: remove console logs in production
+  },
 })
