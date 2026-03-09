@@ -100,7 +100,7 @@ export default function About() {
             <div className="relative">
               <div className="bg-[#FFAA00] aspect-[4/5] max-w-md mx-auto relative overflow-hidden border-4 border-black shadow-2xl transform rotate-2">
                 <div className="absolute inset-0 bg-gradient-to-br from-[#FFAA00] to-[#FF8800]" />
-                <div className="absolute inset-0 flex items-center justify-center text-black/20 font-mansalva text-8xl">
+                <div className="absolute inset-0 flex items-center justify-center text-black/20 font-performance-marker text-8xl">
                   ZZ
                 </div>
                 <div className="absolute bottom-0 left-0 right-0 bg-white p-6 text-center">
