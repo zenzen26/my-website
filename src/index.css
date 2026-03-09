@@ -1,0 +1,133 @@
+@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Share+Tech+Mono&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-amber: #FFAA00;
+  --color-green: #519A66;
+  --color-red: #DA3D20;
+  --font-permanent-marker: "Permanent Marker", cursive;
+  --font-share-tech: "Share Tech Mono", monospace;
+  --breakpoint-4xl: 1920px;
+}
+
+/* Base Typography - Permanent Marker Headers (h1-h4) */
+h1, h2, h3, h4, .h1, .h2, .h3, .h4 {
+  font-family: "Permanent Marker", cursive;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+h1, .h1 { font-size: clamp(48px, 6vw + 24px, 96px); }
+h2, .h2 { font-size: clamp(36px, 4vw + 16px, 64px); }
+h3, .h3 { font-size: clamp(28px, 3vw + 12px, 48px); }
+h4, .h4 { font-size: clamp(22px, 2vw + 10px, 32px); }
+
+/* Body Typography - Monospace (b1-b3) */
+body, .b1, .b2, .b3, p, span, div, a, button, input, textarea, select, label {
+  font-family: "Share Tech Mono", monospace;
+  font-weight: 400;
+}
+
+.b1 { font-size: clamp(18px, 1vw + 12px, 22px); line-height: 1.6; }
+.b2 { font-size: clamp(14px, 0.5vw + 12px, 18px); line-height: 1.6; }
+.b3 { font-size: clamp(12px, 0.3vw + 10px, 14px); line-height: 1.5; }
+
+body {
+  font-size: clamp(14px, 0.5vw + 12px, 18px);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Utility Classes */
+.font-permanent-marker { font-family: "Permanent Marker", cursive; }
+.font-share-tech { font-family: "Share Tech Mono", monospace; }
+
+.text-shadow-retro { text-shadow: 3px 3px 0px rgba(0, 0, 0, 0.1); }
+.paper-texture { background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.08'/%3E%3C/svg%3E"); }
+
+/* Chef Ticket Style */
+.chef-ticket {
+  background: white;
+  border: 2px solid black;
+  position: relative;
+  box-shadow: 2px 2px 0 rgba(0,0,0,0.1);
+  transform: rotate(-1deg);
+  transition: all 0.3s ease;
+}
+
+.chef-ticket::before {
+  content: '';
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 30px;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent,
+    transparent 5px,
+    rgba(0,0,0,0.1) 5px,
+    rgba(0,0,0,0.1) 8px
+  );
+  border-bottom: 2px solid rgba(0,0,0,0.2);
+}
+
+.chef-ticket:hover {
+  transform: rotate(0deg) translateY(-5px);
+  box-shadow: 4px 4px 0 rgba(0,0,0,0.15);
+}
+
+/* Ticket line effect */
+.ticket-line {
+  background: repeating-linear-gradient(
+    90deg,
+    #333,
+    #333 2px,
+    transparent 2px,
+    transparent 20px
+  );
+  height: 4px;
+  margin: 20px 0;
+  position: relative;
+}
+
+.ticket-line::before,
+.ticket-line::after {
+  content: '';
+  position: absolute;
+  top: -8px;
+  width: 20px;
+  height: 20px;
+  background: #333;
+  border-radius: 50%;
+}
+
+.ticket-line::before { left: -10px; }
+.ticket-line::after { right: -10px; }
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fadeIn { animation: fadeIn 0.3s ease-out forwards; }
+
+* { box-sizing: border-box; }
+img, canvas, video { max-width: 100%; height: auto; display: block; }
+
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
