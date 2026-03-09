@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { MapPin, Mail, Calendar, Award, Globe, ShieldCheck } from 'lucide-react';
+import { MapPin, Mail, Globe, ShieldCheck } from 'lucide-react';
 import StickyExperience from '@/components/StickyExperience';
 import { useCSVData } from '@/hooks/useCSVData';
 import type { Experience } from '@/types';

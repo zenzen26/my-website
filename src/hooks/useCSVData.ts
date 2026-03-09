@@ -20,7 +20,7 @@ export function useCSVData<T>(path: string) {
             setData(results.data as T[]);
             setLoading(false);
           },
-          error: (err) => {
+          error: (err: Error) => {
             setError(err.message);
             setLoading(false);
           },

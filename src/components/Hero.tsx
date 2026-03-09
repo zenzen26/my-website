@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState, Suspense, lazy } from 'react';
-import { ArrowDown } from 'lucide-react';
 
 const Spline = lazy(() => import('@splinetool/react-spline'));
 
