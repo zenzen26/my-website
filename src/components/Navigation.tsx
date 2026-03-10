@@ -57,7 +57,7 @@ export default function Navigation() {
           <div className="flex items-center justify-between h-16 md:h-20">
             <Link 
               to="/" 
-              className="font-performance-marker text-2xl sm:text-3xl md:text-4xl text-black transform -rotate-2 hover:rotate-0 transition-transform duration-300 flex items-center gap-2"
+              className="font-permanent-marker text-2xl sm:text-3xl md:text-4xl text-black transform -rotate-2 hover:rotate-0 transition-transform duration-300 flex items-center gap-2"
             >
               <img src="/favicon.png" alt="ZENZEN" className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 object-contain" />
               <span>ZENZEN</span>
@@ -118,7 +118,7 @@ export default function Navigation() {
                 key={link.name}
                 href="#footer"
                 onClick={handleContactClick}
-                className="font-performance-marker text-3xl sm:text-4xl text-black hover:text-amber transition-colors cursor-pointer"
+                className="font-permanent-marker text-3xl sm:text-4xl text-black hover:text-amber transition-colors cursor-pointer"
               >
                 {link.name}
               </a>
@@ -127,7 +127,7 @@ export default function Navigation() {
                 key={link.name}
                 to={link.href}
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="font-performance-marker text-3xl sm:text-4xl text-black hover:text-amber transition-colors"
+                className="font-permanent-marker text-3xl sm:text-4xl text-black hover:text-amber transition-colors"
               >
                 {link.name}
               </Link>

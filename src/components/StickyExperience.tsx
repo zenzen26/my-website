@@ -88,8 +88,8 @@ export default function StickyExperience({ experiences, showEndCard = true }: St
                 Work <span className="text-green">Experience</span>
               </h2>
             </div>
-            <p className="b1 text-black/60 max-w-xl">
-              Scroll horizontally to explore my journey. Click any ticket for details.
+            <p className="b1 text-black/60 max-w-3xl mb-4">
+              Keep scrolling down to see my professional journey. Click on any card to view the details.
             </p>
           </div>
 
