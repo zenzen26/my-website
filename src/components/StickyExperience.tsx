@@ -58,48 +58,50 @@ export default function StickyExperience({ experiences, showEndCard = true }: St
   }, [experiences]);
 
   const colorClasses = {
-    green: 'border-l-[#519A66]',
-    amber: 'border-l-[#FFAA00]',
-    red: 'border-l-[#DA3D20]',
+    green: 'border-l-green',
+    amber: 'border-l-amber',
+    red: 'border-l-red',
     black: 'border-l-black',
   };
 
   const badgeClasses = {
-    green: 'bg-[#519A66]',
-    amber: 'bg-[#FFAA00]',
-    red: 'bg-[#DA3D20]',
+    green: 'bg-green',
+    amber: 'bg-amber',
+    red: 'bg-red',
     black: 'bg-black',
   };
 
   return (
     <>
       <section 
-        id="experience"
         ref={sectionRef}
         className="min-h-screen bg-gray-50 overflow-hidden"
       >
         <div className="h-screen flex flex-col justify-center py-20">
-          {/* Ticket Line */}
-          <div className="px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16 4xl:px-24 mb-8">
-            <div className="ticket-line" />
-          </div>
-
-          {/* Header */}
-          <div className="px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16 4xl:px-24 mb-8">
-            <h2 className="h2 mb-4">
-              Work <span className="text-[#519A66]">Experience</span>
-            </h2>
+          
+          {/* Header - Aligned with mx-auto container */}
+          <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16 4xl:px-24 w-full mb-8">
+            <div className="ticket-line mb-8" />
+            
+            <div className="mb-4">
+              <h2 className="h2">
+                Work <span className="text-green">Experience</span>
+              </h2>
+            </div>
             <p className="b1 text-black/60 max-w-xl">
               Scroll horizontally to explore my journey. Click any ticket for details.
             </p>
           </div>
 
-          {/* Horizontal Scrolling Container */}
+          {/* Horizontal Scrolling Container - Starts at mx-auto */}
           <div 
             ref={scrollContainerRef}
-            className="flex gap-6 px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16 4xl:px-24 will-change-transform"
+            className="flex gap-6 will-change-transform pl-4 sm:pl-6 lg:pl-8 xl:pl-12 2xl:pl-16 4xl:pl-24"
             style={{ width: 'max-content' }}
           >
+            {/* Left spacer to align with container */}
+            <div className="w-0 sm:w-0 lg:w-0 xl:w-0 2xl:w-0 flex-shrink-0" />
+            
             {experiences.map((exp, index) => (
               <div
                 key={exp.id}
@@ -118,10 +120,10 @@ export default function StickyExperience({ experiences, showEndCard = true }: St
                   </span>
 
                   {/* Role & Company */}
-                  <h3 className="h4 mb-1 group-hover:text-[#FFAA00] transition-colors">
+                  <h3 className="h4 mb-1 group-hover:text-amber transition-colors">
                     {exp.role}
                   </h3>
-                  <p className="b1 text-[#FFAA00] mb-3">@ {exp.company}</p>
+                  <p className="b1 text-amber mb-3">@ {exp.company}</p>
                   
                   {/* Duration */}
                   <div className="flex items-center gap-2 text-black/50 b2 mb-3">
@@ -146,15 +148,15 @@ export default function StickyExperience({ experiences, showEndCard = true }: St
                   {/* Click hint */}
                   <div className="mt-4 flex items-center justify-between border-t border-black/10 pt-3">
                     <span className="b3 text-black/40">Click for details</span>
-                    <ArrowRight size={16} className="text-[#FFAA00] opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <ArrowRight size={16} className="text-amber opacity-0 group-hover:opacity-100 transition-opacity" />
                   </div>
                 </div>
               </div>
             ))}
 
-            {/* End Card - Only show if showEndCard is true */}
+            {/* End Card */}
             {showEndCard && (
-              <div className="ticket-card chef-ticket w-[280px] flex-shrink-0 flex items-center justify-center bg-[#FFAA00] self-center border-l-4 border-black">
+              <div className="ticket-card chef-ticket w-[280px] flex-shrink-0 flex items-center justify-center bg-amber self-center border-l-4 border-black">
                 <div className="text-center p-8">
                   <h3 className="h4 mb-4 text-black">That's all!</h3>
                   <p className="b2 text-black/70 mb-6">Want to see more?</p>
@@ -167,10 +169,13 @@ export default function StickyExperience({ experiences, showEndCard = true }: St
                 </div>
               </div>
             )}
+            
+            {/* Right spacer */}
+            <div className="w-4 sm:w-6 lg:w-8 xl:w-12 2xl:w-16 4xl:w-24 flex-shrink-0" />
           </div>
 
-          {/* Bottom Ticket Line */}
-          <div className="px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16 4xl:px-24 mt-8">
+          {/* Bottom Ticket Line - Aligned with container */}
+          <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16 4xl:px-24 w-full mt-8">
             <div className="ticket-line" />
           </div>
         </div>

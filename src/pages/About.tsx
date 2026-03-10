@@ -3,17 +3,17 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { MapPin, Mail, Globe, ShieldCheck } from 'lucide-react';
 import StickyExperience from '@/components/StickyExperience';
+import FooterResume from '@/components/FooterResume';
 import { useCSVData } from '@/hooks/useCSVData';
 import type { Experience } from '@/types';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const personalDetails = {
-  languages: ['English (Native)', 'Spanish (Conversational)', 'Mandarin (Basic)'],
+  languages: ['English (Native)', 'Mandarin (Native)'],
   certificates: ['AWS Solutions Architect', 'Google Data Analytics', 'Meta Frontend Developer'],
-  location: 'San Francisco, CA',
-  email: 'hello@zenzen.dev',
-  experience: '5+ Years',
+  location: 'Sydney, NSW',
+  contact: ['+61 450 190 503', 'thamzien@gmail.com'],
 };
 
 const skills = {
@@ -36,10 +36,10 @@ const skills = {
 };
 
 const industries = [
-  { name: 'HealthTech', color: 'green', tagline: 'Impact through data' },
-  { name: 'EdTech', color: 'amber', tagline: 'Learning should be beautiful' },
-  { name: 'Creative Tools', color: 'red', tagline: 'Building for makers' },
-  { name: 'FinTech', color: 'green', tagline: 'Complex made simple' },
+  { name: 'Health Tech', color: 'green', tagline: 'Impact through data & AI' },
+  { name: 'FinTech', color: 'green', tagline: 'Complex made Simple' },
+  { name: 'Analyst', color: 'black', tagline: 'Making sense of complexity' },
+  { name: 'Web Dev', color: 'black', tagline: 'Building attractive web experiences' },
   { name: 'Data Viz', color: 'black', tagline: 'Making sense of complexity' },
 ];
 
@@ -55,15 +55,15 @@ export default function About() {
   if (loading) {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center pt-20">
-        <div className="h2 animate-pulse text-[#FFAA00]">Loading...</div>
+        <div className="h2 animate-pulse text-amber">Loading...</div>
       </div>
     );
   }
 
   const colorMap = {
-    green: 'bg-[#519A66] text-white',
-    amber: 'bg-[#FFAA00] text-black',
-    red: 'bg-[#DA3D20] text-white',
+    green: 'bg-green text-white',
+    amber: 'bg-amber text-black',
+    red: 'bg-red text-white',
     black: 'bg-black text-white',
   };
 
@@ -74,41 +74,37 @@ export default function About() {
         <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16 4xl:px-24 w-full">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
-              <h1 className="h1 mb-8">
-                My <span className="text-[#FFAA00]">Story</span>
-              </h1>
+              <div className="mb-8">
+                <h1 className="h1">
+                  My <span className="text-amber">Story</span>
+                </h1>
+              </div>
               
               <div className="space-y-6 b1 text-black/80 leading-relaxed">
                 <p>
-                  I'm a developer who believes code should tell a story. With 5+ years of experience 
-                  bridging design and engineering, I specialize in creating web applications that are 
-                  both technically robust and visually compelling.
+                  I’m a computing science graduate specializing in <b className="bg-amber">AI & Data Analytics</b>, with experience applying AI and machine learning in clinical laboratory settings. I enjoy using data to solve real-world problems and aim to leverage AI to improve healthcare outcomes.
                 </p>
+
                 <p>
-                  My journey began in a university AI lab, where I discovered the power of data 
-                  visualization to make complex information accessible. This led me through roles 
-                  in healthcare startups, fintech, and enterprise SaaS, always focusing on the 
-                  intersection of user experience and technical excellence.
+                  I’m also fascinated by biology and medicine, including topics like genomics, RNA, and DNA, and enjoy reading about these areas to stay inspired. I’m drawn to the creative side of technology as well, with interests in art, drawing, <b className="bg-amber">web design</b>, and <b className="bg-amber">data visualization</b>, where design and information come together to tell clear, engaging stories.
                 </p>
+
                 <p>
-                  When I'm not coding, you'll find me exploring generative art, contributing to 
-                  open source, or mentoring the next generation of developers.
+                  Outside work, I spend time with cats, explore new ideas, and occasionally enjoy a mocha to power through a busy day. I enjoy building projects that balance utility and aesthetics while reflecting curiosity and creativity.
                 </p>
               </div>
             </div>
 
             <div className="relative">
-              <div className="bg-[#FFAA00] aspect-[4/5] max-w-md mx-auto relative overflow-hidden border-4 border-black shadow-2xl transform rotate-2">
-                <div className="absolute inset-0 bg-gradient-to-br from-[#FFAA00] to-[#FF8800]" />
-                <div className="absolute inset-0 flex items-center justify-center text-black/20 font-performance-marker text-8xl">
-                  ZZ
-                </div>
+              <div className="bg-amber aspect-[4/5] max-w-md mx-auto relative overflow-hidden border-4 border-black shadow-2xl transform rotate-2">
+                <div className="absolute inset-0 bg-gradient-to-br from-amber to-[#FF8800]" />
+                <img src="/images/cat.jpg" alt="Zenzen" className="absolute inset-0 w-full h-full object-cover" />
                 <div className="absolute bottom-0 left-0 right-0 bg-white p-6 text-center">
                   <p className="b2 text-black/60">zenzen @ 2024</p>
-                  <p className="b3 text-black/40 mt-1">San Francisco, CA</p>
+                  <p className="b3 text-black/40 mt-1">Sydney, NSW</p>
                 </div>
               </div>
-              <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-32 h-8 bg-[#FFAA00]/30 transform -rotate-2" />
+              <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-32 h-8 bg-amber/30 transform -rotate-2" />
             </div>
           </div>
         </div>
@@ -121,12 +117,16 @@ export default function About() {
             
             {/* Personal Details */}
             <div>
-              <h2 className="h3 mb-8">Personal Details</h2>
+              <div className="mb-8">
+                <h2 className="h3">Personal Details</h2>
+              </div>
               
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div className="border-2 border-black p-6 bg-white">
-                  <Globe size={24} className="text-[#519A66] mb-3" />
-                  <h4 className="h4 mb-2">Languages</h4>
+                  <div className="flex items-center gap-5 mb-3">
+                    <Globe size={24} className="text-green" />
+                    <h4 className="h4">Languages</h4>
+                  </div>
                   <ul className="b2 space-y-1 text-black/70">
                     {personalDetails.languages.map(lang => (
                       <li key={lang}>{lang}</li>
@@ -135,8 +135,10 @@ export default function About() {
                 </div>
                 
                 <div className="border-2 border-black p-6 bg-white">
-                  <ShieldCheck size={24} className="text-[#FFAA00] mb-3" />
-                  <h4 className="h4 mb-2">Certificates</h4>
+                  <div className="flex items-center gap-5 mb-3">
+                    <ShieldCheck size={24} className="text-amber" />
+                    <h4 className="h4">Certificates</h4>
+                  </div>
                   <ul className="b2 space-y-1 text-black/70">
                     {personalDetails.certificates.map(cert => (
                       <li key={cert}>{cert}</li>
@@ -145,28 +147,38 @@ export default function About() {
                 </div>
                 
                 <div className="border-2 border-black p-6 bg-white">
-                  <MapPin size={24} className="text-[#DA3D20] mb-3" />
-                  <h4 className="h4 mb-2">Location</h4>
+                  <div className="flex items-center gap-5 mb-3">
+                    <MapPin size={24} className="text-red" />
+                    <h4 className="h4">Location</h4>
+                  </div>
                   <p className="b2 text-black/70">{personalDetails.location}</p>
                 </div>
                 
                 <div className="border-2 border-black p-6 bg-white">
-                  <Mail size={24} className="text-black mb-3" />
-                  <h4 className="h4 mb-2">Contact</h4>
-                  <p className="b2 text-black/70">{personalDetails.email}</p>
+                  <div className="flex items-center gap-5 mb-3">
+                    <Mail size={24} className="text-black" />
+                    <h4 className="h4">Contact</h4>
+                  </div>
+                  <ul className="b2 space-y-1 text-black/70">
+                    {personalDetails.contact.map(contact => (
+                      <li key={contact}>{contact}</li>
+                    ))}
+                  </ul>
                 </div>
               </div>
             </div>
 
             {/* Tech Stack */}
             <div>
-              <h2 className="h3 mb-8">Tech Stack</h2>
+              <div className="mb-8">
+                <h2 className="h3">Tech Stack</h2>
+              </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {Object.entries(skills).map(([category, data]) => {
                   const borderColor = {
-                    green: 'border-[#519A66]',
-                    amber: 'border-[#FFAA00]',
-                    red: 'border-[#DA3D20]',
+                    green: 'border-green',
+                    amber: 'border-amber',
+                    red: 'border-red',
                     black: 'border-black',
                   };
                   
@@ -195,7 +207,9 @@ export default function About() {
 
           {/* Target Industries */}
           <div className="mt-16">
-            <h2 className="h3 mb-8">Target Industries</h2>
+            <div className="mb-8">
+              <h2 className="h3">Target Industries & Job</h2>
+            </div>
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
               {industries.map((industry) => (
                 <div
@@ -213,6 +227,8 @@ export default function About() {
 
       {/* Work Experience - No end card */}
       <StickyExperience experiences={experiences} showEndCard={false} />
+
+      <FooterResume />
     </div>
   );
 }

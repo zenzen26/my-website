@@ -10,9 +10,9 @@ export default function ExperiencePopup({ experience, onClose }: ExperiencePopup
   if (!experience) return null;
 
   const colorClasses = {
-    green: 'bg-[#519A66]',
-    amber: 'bg-[#FFAA00]',
-    red: 'bg-[#DA3D20]',
+    green: 'bg-green',
+    amber: 'bg-amber',
+    red: 'bg-red',
     black: 'bg-black',
   };
 
@@ -27,7 +27,7 @@ export default function ExperiencePopup({ experience, onClose }: ExperiencePopup
       >
         <button 
           onClick={onClose}
-          className="absolute top-4 right-4 p-2 hover:bg-[#FFAA00] transition-colors z-10"
+          className="absolute top-4 right-4 p-2 hover:bg-amber transition-colors z-10"
         >
           <X size={24} />
         </button>

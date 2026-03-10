@@ -1,9 +1,9 @@
 import { Mail, Phone, MapPin, Github, Linkedin, Twitter, Download } from 'lucide-react';
 
 const resumes = [
-  { name: 'The Generalist', color: 'black', focus: 'Full background' },
-  { name: 'Frontend Dev', color: 'green', focus: 'React/Next.js' },
-  { name: 'Data & AI', color: 'amber', focus: 'Python/Analytics' },
+  { name: 'Generalist', color: 'black', focus: 'Full background' },
+  { name: 'Frontend', color: 'green', focus: 'React/Next.js' },
+  { name: 'Data & AI', color: 'amber', focus: 'Python/ML' },
 ];
 
 const socials = [
@@ -14,10 +14,10 @@ const socials = [
 
 export default function FooterResume() {
   const colorMap = {
-    green: 'bg-[#519A66] text-white',
-    amber: 'bg-[#FFAA00] text-black',
-    red: 'bg-[#DA3D20] text-white',
-    black: 'bg-black text-white',
+    green: 'bg-green',
+    amber: 'bg-amber',
+    red: 'bg-red',
+    black: 'bg-black',
   };
 
   return (
@@ -26,19 +26,21 @@ export default function FooterResume() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 mb-12">
           
           <div>
-            <h2 className="h2 mb-8 text-[#FFAA00]">
-              Let's Talk
-            </h2>
+            <div className="mb-8">
+              <h2 className="h2 text-amber">
+                Coffee Chat?
+              </h2>
+            </div>
             
             <div className="space-y-4 b1 mb-8">
-              <a href="mailto:hello@zenzen.dev" className="flex items-center gap-3 hover:text-[#FFAA00] transition-colors">
-                <Mail size={20} /> hello@zenzen.dev
+              <a href="mailto:thamzien@gmail.com" className="flex items-center gap-3 hover:text-amber transition-colors">
+                <Mail size={20} /> thamzien@gmail.com
               </a>
-              <a href="tel:+1234567890" className="flex items-center gap-3 hover:text-[#FFAA00] transition-colors">
-                <Phone size={20} /> +1 (234) 567-890
+              <a href="tel:+61450190503" className="flex items-center gap-3 hover:text-amber transition-colors">
+                <Phone size={20} /> +61 450 190 503
               </a>
               <div className="flex items-center gap-3 text-white/60">
-                <MapPin size={20} /> San Francisco, CA
+                <MapPin size={20} /> Sydney, NSW
               </div>
             </div>
 
@@ -49,7 +51,7 @@ export default function FooterResume() {
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-12 h-12 border-2 border-white/20 flex items-center justify-center hover:bg-[#FFAA00] hover:border-[#FFAA00] hover:text-black transition-all"
+                  className="w-12 h-12 border-2 border-white/20 flex items-center justify-center hover:bg-amber hover:border-amber hover:text-black transition-all"
                 >
                   <social.icon size={20} />
                 </a>
@@ -58,19 +60,22 @@ export default function FooterResume() {
           </div>
 
           <div>
-            <h3 className="h3 mb-6">Resume Hub</h3>
+            <div className="mb-6">
+              <h3 className="h3">Resume Hub</h3>
+            </div>
+            
+            {/* Clean horizontal layout */}
             <div className="grid grid-cols-3 gap-4">
-              {resumes.map((resume, index) => (
+              {resumes.map((resume) => (
                 <div
                   key={resume.name}
-                  className={`${colorMap[resume.color as keyof typeof colorMap]} p-4 border-2 border-white/10 transform transition-all duration-300 hover:-translate-y-2 hover:shadow-lg cursor-pointer group`}
-                  style={{ transform: `rotate(${(index - 1) * 3}deg)` }}
+                  className={`${colorMap[resume.color as keyof typeof colorMap]} p-4 border-2 border-white/10 cursor-pointer transform transition-all duration-300 hover:-translate-y-2 hover:shadow-lg group`}
                 >
                   <div className="aspect-[3/4] mb-3 bg-white/10 flex items-center justify-center border border-dashed border-current">
-                    <Download size={24} className="opacity-50 group-hover:opacity-100 transition-opacity" />
+                    <Download size={20} className="opacity-50 group-hover:opacity-100 transition-opacity" />
                   </div>
-                  <h4 className="h4 mb-1">{resume.name}</h4>
-                  <p className="b3 opacity-70">{resume.focus}</p>
+                  <h4 className="h4 mb-1 text-sm">{resume.name}</h4>
+                  <p className="b3 opacity-70 text-xs">{resume.focus}</p>
                 </div>
               ))}
             </div>
@@ -78,7 +83,7 @@ export default function FooterResume() {
         </div>
 
         <div className="border-t border-white/10 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="h4 text-[#FFAA00]">ZENZEN</p>
+          <p className="h4 text-amber">ZENZEN</p>
           <p className="b3 text-white/40">
             © {new Date().getFullYear()} All rights reserved.
           </p>

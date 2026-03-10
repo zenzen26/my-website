@@ -39,9 +39,9 @@ export default function IndustriesTech() {
   }, []);
 
   const colorMap = {
-    green: 'bg-[#519A66] text-white',
-    amber: 'bg-[#FFAA00] text-black',
-    red: 'bg-[#DA3D20] text-white',
+    green: 'bg-green text-white',
+    amber: 'bg-amber text-black',
+    red: 'bg-red text-white',
     black: 'bg-black text-white',
   };
 
@@ -50,9 +50,11 @@ export default function IndustriesTech() {
       <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16 4xl:px-24">
         
         <div className="mb-20">
-          <h2 className="h2 text-center mb-12">
-            Target <span className="text-[#FFAA00]">Industries</span>
-          </h2>
+          <div className="mb-10 text-center">
+            <h2 className="h2">
+              Target <span className="text-amber">Industries</span>
+            </h2>
+          </div>
           
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
             {industries.map((industry) => (
@@ -68,13 +70,15 @@ export default function IndustriesTech() {
         </div>
 
         <div>
-          <h2 className="h2 text-center mb-12">
-            Tech <span className="text-[#519A66]">Arsenal</span>
-          </h2>
+          <div className="mb-10 text-center">
+            <h2 className="h2">
+              Tech <span className="text-green">Stack</span>
+            </h2>
+          </div>
           
           <div className="skills-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {Object.entries(skills).map(([category, data]) => {
-              const borderColor = { green: 'border-[#519A66]', amber: 'border-[#FFAA00]', red: 'border-[#DA3D20]', black: 'border-black' };
+              const borderColor = { green: 'border-green', amber: 'border-amber', red: 'border-red', black: 'border-black' };
               return (
                 <div 
                   key={category} 
@@ -85,7 +89,7 @@ export default function IndustriesTech() {
                     {data.items.map((skill) => (
                       <span 
                         key={skill}
-                        className="b3 px-3 py-1 bg-white border border-black/20 hover:bg-[#FFAA00] hover:border-[#FFAA00] transition-colors cursor-default"
+                        className="b3 px-3 py-1 bg-white border border-black/20 hover:bg-amber hover:border-amber transition-colors cursor-default"
                       >
                         {skill}
                       </span>

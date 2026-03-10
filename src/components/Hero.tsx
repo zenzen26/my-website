@@ -110,23 +110,23 @@ export default function Hero() {
                   <FallbackCrystal />
                 )}
               </div>
-              <div className="absolute top-10 right-10 w-20 h-20 bg-[#FFAA00]/20 rounded-full blur-xl animate-pulse pointer-events-none" />
-              <div className="absolute bottom-20 left-10 w-16 h-16 bg-[#519A66]/20 rounded-full blur-xl animate-pulse delay-700 pointer-events-none" />
+              <div className="absolute top-10 right-10 w-20 h-20 bg-amber/20 rounded-full blur-xl animate-pulse pointer-events-none" />
+              <div className="absolute bottom-20 left-10 w-16 h-16 bg-green/20 rounded-full blur-xl animate-pulse delay-700 pointer-events-none" />
             </div>
           </div>
 
           <div ref={contentRef} className="lg:col-span-5 xl:col-span-6 order-1 lg:order-2 hero-content">
             <div className="inline-block mb-6 animate-pulse-rotate">
-              <div className="bg-[#519A66] text-white b2 px-4 py-2 border-4 border-[#519A66] border-dashed">
+              <div className="bg-green text-white b2 px-4 py-2 border-4 border-green border-dashed">
                 OPEN TO WORK
               </div>
             </div>
 
             <h1 className="h1 leading-none mb-4 text-shadow-retro">
-              ZEN<span className="text-[#FFAA00]">ZEN</span>
+              ZEN<span className="text-amber">ZEN</span>
             </h1>
 
-            <p className="b1 text-[#FFAA00] mb-6">
+            <p className="b1 text-amber mb-6">
               Full Stack Developer & Data Alchemist
             </p>
 
@@ -138,7 +138,7 @@ export default function Hero() {
             <div className="flex flex-col sm:flex-row gap-4 mb-12">
               <button 
                 onClick={() => document.querySelector('#work')?.scrollIntoView({ behavior: 'smooth' })}
-                className="group relative px-8 py-4 bg-[#519A66] text-white b2 overflow-hidden transition-all hover:shadow-lg hover:-translate-y-1"
+                className="group relative px-8 py-4 bg-green text-white b2 overflow-hidden transition-all hover:shadow-lg hover:-translate-y-1"
               >
                 <span className="relative z-10">View Work</span>
                 <div className="absolute inset-0 bg-black transform translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
@@ -146,7 +146,7 @@ export default function Hero() {
               
               <button 
                 onClick={() => document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' })}
-                className="px-8 py-4 border-2 border-[#FFAA00] text-black b2 hover:bg-[#FFAA00] hover:text-black transition-all hover:-translate-y-1"
+                className="px-8 py-4 border-2 border-amber text-black b2 hover:bg-amber hover:text-black transition-all hover:-translate-y-1"
               >
                 Contact Me
               </button>
@@ -156,7 +156,7 @@ export default function Hero() {
               {['React', 'TypeScript', 'Node.js', 'Python', 'Tailwind'].map((tech) => (
                 <span 
                   key={tech} 
-                  className="px-3 py-1 bg-black/5 border border-black/10 hover:bg-[#FFAA00]/20 hover:border-[#FFAA00] transition-colors cursor-default"
+                  className="px-3 py-1 bg-black/5 border border-black/10 hover:bg-amber/20 hover:border-amber transition-colors cursor-default"
                 >
                   {tech}
                 </span>

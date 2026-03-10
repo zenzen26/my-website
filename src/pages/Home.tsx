@@ -25,7 +25,7 @@ export default function Home() {
   if (projectsLoading || expLoading) {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center">
-        <div className="h2 animate-pulse text-[#FFAA00]">Loading...</div>
+        <div className="h2 animate-pulse text-amber">Loading...</div>
       </div>
     );
   }
@@ -42,9 +42,11 @@ export default function Home() {
       
       <section id="projects" className="py-20 bg-white">
         <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16 4xl:px-24">
-          <h2 className="h2 text-center mb-12">
-            Featured <span className="text-[#FFAA00]">Projects</span>
-          </h2>
+          <div className="mb-10 text-center">
+            <h2 className="h2">
+              Featured <span className="text-amber">Projects</span>
+            </h2>
+          </div>
           <FeaturedProjects projects={featuredProjects} />
         </div>
       </section>

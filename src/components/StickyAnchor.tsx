@@ -60,7 +60,7 @@ export default function StickyAnchor() {
             }`}
           >
             <span className={`w-px h-6 transition-all duration-300 ${
-              activeSection === section.id ? 'bg-[#FFAA00] scale-y-125' : 'bg-gray-400'
+              activeSection === section.id ? 'bg-amber scale-y-125' : 'bg-gray-400'
             }`} />
             <span className={`font-share-tech text-xs transition-all duration-300 ${
               activeSection === section.id ? 'translate-x-0 opacity-100 text-amber' : '-translate-x-2 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 text-gray-500'
