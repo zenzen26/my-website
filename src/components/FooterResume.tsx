@@ -1,4 +1,4 @@
-import { Mail, Phone, MapPin, Github, Linkedin, Twitter, Download } from 'lucide-react';
+import { Mail, Phone, MapPin, Github, Linkedin, LayoutDashboard, Download } from 'lucide-react';
 
 const resumes = [
   { name: 'Generalist', color: 'black', focus: 'Full background' },
@@ -7,9 +7,9 @@ const resumes = [
 ];
 
 const socials = [
-  { icon: Github, label: 'GitHub', href: 'https://github.com' },
-  { icon: Linkedin, label: 'LinkedIn', href: 'https://linkedin.com' },
-  { icon: Twitter, label: 'Twitter', href: 'https://twitter.com' },
+  { icon: Github, label: 'GitHub', href: 'https://github.com/zenzen26' },
+  { icon: Linkedin, label: 'LinkedIn', href: 'https://www.linkedin.com/in/zi-en-tham-605a40161/' },
+  { icon: LayoutDashboard, label: 'Tableau', href: 'https://public.tableau.com/app/profile/zenzen26/vizzes' },
 ];
 
 export default function FooterResume() {
