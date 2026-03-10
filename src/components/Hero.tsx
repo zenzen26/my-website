@@ -127,12 +127,11 @@ export default function Hero() {
             </h1>
 
             <p className="b1 text-amber mb-6">
-              Full Stack Developer & Data Alchemist
+              Web & AI Developer
             </p>
 
             <p className="b1 text-black/80 max-w-md mb-8 leading-relaxed">
-              Building digital experiences that bridge creative design and technical precision. 
-              Specializing in React ecosystems and data visualization.
+              Web, AI, and data visualization. I turn complexity into clarity while combining technology, design, and creativity to build engaging digital experiences.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 mb-12">
