@@ -5,11 +5,11 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 gsap.registerPlugin(ScrollTrigger);
 
 const industries = [
-  { name: 'HealthTech', color: 'green', tagline: 'Impact through data' },
-  { name: 'EdTech', color: 'amber', tagline: 'Learning should be beautiful' },
-  { name: 'Creative Tools', color: 'red', tagline: 'Building for makers' },
-  { name: 'FinTech', color: 'green', tagline: 'Complex made simple' },
-  { name: 'Data Viz', color: 'black', tagline: 'Making sense of complexity' },
+  { name: 'Health Tech', color: 'green', tagline: 'Impact through data & AI' },
+  { name: 'FinTech', color: 'green', tagline: 'Simplifying finance through data' },
+  { name: 'Analyst', color: 'black', tagline: 'Turning data into insight' },
+  { name: 'Web Dev', color: 'black', tagline: 'Building attractive web experiences' },
+  { name: 'Data Viz', color: 'black', tagline: 'Visualizing data, revealing insights' },
 ];
 
 const skills = {

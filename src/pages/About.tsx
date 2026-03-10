@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { MapPin, Mail, Globe, ShieldCheck } from 'lucide-react';
+import { GraduationCap, Mail, Globe, ShieldCheck } from 'lucide-react';
 import StickyExperience from '@/components/StickyExperience';
 import FooterResume from '@/components/FooterResume';
 import { useCSVData } from '@/hooks/useCSVData';
@@ -11,8 +11,8 @@ gsap.registerPlugin(ScrollTrigger);
 
 const personalDetails = {
   languages: ['English (Native)', 'Mandarin (Native)'],
-  certificates: ['AWS Solutions Architect', 'Google Data Analytics', 'Meta Frontend Developer'],
-  location: 'Sydney, NSW',
+  certificates: ['iCAT Foundations', 'Working with Children Check', 'LCCI Level 2 in Bookkeeping & Accounting'],
+  education: 'Bachelor of Computing Science (First Class Honours)',
   contact: ['+61 450 190 503', 'thamzien@gmail.com'],
 };
 
@@ -37,10 +37,10 @@ const skills = {
 
 const industries = [
   { name: 'Health Tech', color: 'green', tagline: 'Impact through data & AI' },
-  { name: 'FinTech', color: 'green', tagline: 'Complex made Simple' },
-  { name: 'Analyst', color: 'black', tagline: 'Making sense of complexity' },
+  { name: 'FinTech', color: 'green', tagline: 'Simplifying finance through data' },
+  { name: 'Analyst', color: 'black', tagline: 'Turning data into insight' },
   { name: 'Web Dev', color: 'black', tagline: 'Building attractive web experiences' },
-  { name: 'Data Viz', color: 'black', tagline: 'Making sense of complexity' },
+  { name: 'Data Viz', color: 'black', tagline: 'Visualizing data, revealing insights' },
 ];
 
 export default function About() {
@@ -137,7 +137,7 @@ export default function About() {
                 <div className="border-2 border-black p-6 bg-white">
                   <div className="flex items-center gap-5 mb-3">
                     <ShieldCheck size={24} className="text-amber" />
-                    <h4 className="h4">Certificates</h4>
+                    <h4 className="h4">Certificates & Licenses</h4>
                   </div>
                   <ul className="b2 space-y-1 text-black/70">
                     {personalDetails.certificates.map(cert => (
@@ -148,10 +148,10 @@ export default function About() {
                 
                 <div className="border-2 border-black p-6 bg-white">
                   <div className="flex items-center gap-5 mb-3">
-                    <MapPin size={24} className="text-red" />
-                    <h4 className="h4">Location</h4>
+                    <GraduationCap size={24} className="text-red" />
+                    <h4 className="h4">Education</h4>
                   </div>
-                  <p className="b2 text-black/70">{personalDetails.location}</p>
+                  <p className="b2 text-black/70">{personalDetails.education}</p>
                 </div>
                 
                 <div className="border-2 border-black p-6 bg-white">
