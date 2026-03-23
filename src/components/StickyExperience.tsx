@@ -109,7 +109,7 @@ export default function StickyExperience({ experiences, showEndCard = true }: St
             {/* Inner flex row — always wider than the viewport */}
             <div
               ref={innerRowRef}
-              className="flex gap-6 will-change-transform pl-4 sm:pl-6 lg:pl-8 xl:pl-12 2xl:pl-16 4xl:pl-24"
+              className="flex gap-6 will-change-transform py-4 pl-4 sm:pl-6 lg:pl-8 xl:pl-12 2xl:pl-16 4xl:pl-24"
               style={{ width: 'max-content' }}
             >
               {experiences.map((exp, index) => (
