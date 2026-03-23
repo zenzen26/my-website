@@ -30,7 +30,7 @@ export default function Home() {
     );
   }
 
-  const featuredProjects = projects.filter(p => p.featured).slice(0, 4);
+  const featuredProjects = projects.filter(p => p.featured).slice(0, 6);
 
   return (
     <div className="relative">

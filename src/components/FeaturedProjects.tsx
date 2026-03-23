@@ -52,10 +52,16 @@ export default function FeaturedProjects({ projects }: FeaturedProjectsProps) {
     black: 'bg-black',
   };
 
+  const typeColorClasses = {
+    'AI': 'bg-amber',
+    'Web': 'bg-green',
+    'Data': 'bg-red',
+  };
+
   return (
     <>
       {/* Desktop: Grid Layout */}
-      <div ref={sectionRef} className="hidden md:grid md:grid-cols-2 gap-6">
+      <div ref={sectionRef} className="hidden md:grid md:grid-cols-3 gap-6">
         {projects.map((project, index) => (
           <div
             key={project.id}
@@ -63,12 +69,21 @@ export default function FeaturedProjects({ projects }: FeaturedProjectsProps) {
             className="project-card-desktop taped-card group cursor-pointer"
             style={{ transform: `rotate(${index % 2 === 0 ? -2 : 2}deg)` }}
           >
-            {/* Image Container */}
+            {/* Image Container - Using background-image for perfect cover */}
             <div className="relative overflow-hidden bg-amber mb-4 h-48 sm:h-56 mx-4 mt-8">
-              <div className="absolute inset-0 bg-gradient-to-br from-amber to-[#FF8800]" />
-              <div className="absolute inset-0 flex items-center justify-center text-black/20 font-permanent-marker text-4xl">
-                IMG
-              </div>
+              {project.image_url ? (
+                <div
+                  className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-300 group-hover:scale-105"
+                  style={{ backgroundImage: `url(${project.image_url})` }}
+                />
+              ) : (
+                <>
+                  <div className="absolute inset-0 bg-gradient-to-br from-amber to-[#FF8800]" />
+                  <div className="absolute inset-0 flex items-center justify-center text-black/20 font-permanent-marker text-4xl">
+                    IMG
+                  </div>
+                </>
+              )}
               
               <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-4">
                 <span className="text-white b1 flex items-center gap-2">
@@ -80,7 +95,10 @@ export default function FeaturedProjects({ projects }: FeaturedProjectsProps) {
             {/* Content */}
             <div className="space-y-2 px-4 pb-6">
               <div className="flex items-center gap-2 flex-wrap">
-                <span className={`${colorClasses[project.color_tag]} b3 px-2 py-1 text-white`}>
+                <span className={`${typeColorClasses[project.type as keyof typeof typeColorClasses] || 'bg-black'} b3 px-2 py-1 text-white`}>
+                  {project.type}
+                </span>
+                <span className="b3 px-2 py-1 bg-white text-black border border-black">
                   {project.category}
                 </span>
                 <span className="b3 text-black/50">{project.date}</span>
@@ -122,16 +140,29 @@ export default function FeaturedProjects({ projects }: FeaturedProjectsProps) {
               transform: `rotate(${index % 2 === 0 ? -1 : 1}deg)`
             }}
           >
+            {/* Mobile Image Container - Using background-image */}
             <div className="relative overflow-hidden bg-amber mb-4 h-40 mx-4 mt-8">
-              <div className="absolute inset-0 bg-gradient-to-br from-amber to-[#FF8800]" />
-              <div className="absolute inset-0 flex items-center justify-center text-black/20 font-permanent-marker text-3xl">
-                IMG
-              </div>
+              {project.image_url ? (
+                <div
+                  className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+                  style={{ backgroundImage: `url(${project.image_url})` }}
+                />
+              ) : (
+                <>
+                  <div className="absolute inset-0 bg-gradient-to-br from-amber to-[#FF8800]" />
+                  <div className="absolute inset-0 flex items-center justify-center text-black/20 font-permanent-marker text-3xl">
+                    IMG
+                  </div>
+                </>
+              )}
             </div>
 
             <div className="space-y-2 px-4 pb-6">
               <div className="flex items-center gap-2">
-                <span className={`${colorClasses[project.color_tag]} b3 px-2 py-1 text-white`}>
+                <span className={`${typeColorClasses[project.type as keyof typeof typeColorClasses] || 'bg-black'} b3 px-2 py-1 text-white`}>
+                  {project.type}
+                </span>
+                <span className="b3 px-2 py-1 bg-white text-black border border-black">
                   {project.category}
                 </span>
                 <span className="b3 text-black/50">{project.date}</span>
@@ -167,25 +198,25 @@ export default function FeaturedProjects({ projects }: FeaturedProjectsProps) {
               <X size={24} />
             </button>
 
-            {/* Header Image */}
-            <div className={`${colorClasses[selectedProject.color_tag]} h-48 sm:h-64 relative`}>
-              <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_30%_30%,white_1px,transparent_1px)] bg-[length:20px_20px]" />
+            {/* Header - Dotted colored background, no thumbnail */}
+            <div className={`${colorClasses[selectedProject.color_tag as keyof typeof colorClasses] || 'bg-amber'} h-48 sm:h-64 relative overflow-hidden`}>
+              <div className="absolute inset-0 opacity-30 bg-[radial-gradient(circle_at_30%_30%,white_2px,transparent_2px)] bg-[length:24px_24px]" />
               <div className="absolute inset-0 flex items-center justify-center">
-                <h2 className="h2 text-white text-center px-4">{selectedProject.title}</h2>
+                <h2 className="h2 text-white text-center px-4 drop-shadow-lg">{selectedProject.title}</h2>
               </div>
             </div>
 
             <div className="p-6 sm:p-8">
               {/* Meta */}
               <div className="flex flex-wrap gap-4 mb-6 font-share-tech text-sm">
-                <span className="flex items-center gap-1">
-                  <Tag size={16} /> {selectedProject.category}
+                <span className={`flex items-center gap-1 px-3 py-1 text-white ${typeColorClasses[selectedProject.type as keyof typeof typeColorClasses] || 'bg-black'}`}>
+                  <Tag size={16} /> {selectedProject.type}
                 </span>
-                <span className="flex items-center gap-1">
+                <span className="flex items-center gap-1 px-3 py-1 bg-white text-black border border-black">
+                  {selectedProject.category}
+                </span>
+                <span className="flex items-center gap-1 text-black/60">
                   <Calendar size={16} /> {selectedProject.date}
-                </span>
-                <span className={`px-3 py-1 text-white ${colorClasses[selectedProject.color_tag]}`}>
-                  {selectedProject.type}
                 </span>
               </div>
 
