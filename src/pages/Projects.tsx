@@ -1,27 +1,54 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Search, X, ExternalLink, Github, Calendar, Tag } from 'lucide-react';
+import { Search, X, ExternalLink, Github, Calendar, Tag, ArrowUp, ArrowDown } from 'lucide-react';
 import { useCSVData } from '@/hooks/useCSVData';
 import type { Project } from '@/types';
 import FooterResume from '@/components/FooterResume';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const categories = ['All', 'Web Dev', 'Data & AI', 'Dashboards', 'Experiments'];
-
 export default function Projects() {
   const { data: projects, loading } = useCSVData<Project>('/data/projects.csv');
-  const [filter, setFilter] = useState('All');
+  const [typeFilter, setTypeFilter] = useState('All');
   const [search, setSearch] = useState('');
+  const [sortDirection, setSortDirection] = useState<'desc' | 'asc'>('desc');
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const gridRef = useRef<HTMLDivElement>(null);
 
+  const types = useMemo(() => {
+    if (!projects.length) return ['All'];
+    const uniqueTypes = [...new Set(projects.map(p => p.type))];
+    return ['All', ...uniqueTypes.sort()];
+  }, [projects]);
+
+  const filteredProjects = useMemo(() => {
+    let filtered = projects.filter((p) => {
+      const matchesType = typeFilter === 'All' || p.type === typeFilter;
+      const matchesSearch = 
+        p.title.toLowerCase().includes(search.toLowerCase()) || 
+        p.description.toLowerCase().includes(search.toLowerCase()) ||
+        p.tech_stack.toLowerCase().includes(search.toLowerCase());
+      return matchesType && matchesSearch;
+    });
+
+    return filtered.sort((a, b) => {
+      const dateA = new Date(a.date).getTime() || 0;
+      const dateB = new Date(b.date).getTime() || 0;
+      return sortDirection === 'desc' ? dateB - dateA : dateA - dateB;
+    });
+  }, [projects, typeFilter, search, sortDirection]);
+
   useEffect(() => {
     if (!loading && gridRef.current) {
-      ScrollTrigger.refresh();
-      
-      gsap.fromTo('.project-tile',
+      ScrollTrigger.getAll().forEach(trigger => {
+        if (trigger.vars.trigger === gridRef.current) {
+          trigger.kill();
+        }
+      });
+
+      gsap.fromTo(
+        '.project-tile',
         { y: 40, opacity: 0 },
         {
           y: 0,
@@ -36,7 +63,7 @@ export default function Projects() {
         }
       );
     }
-  }, [loading, filter, search]);
+  }, [loading, filteredProjects]);
 
   useEffect(() => {
     if (selectedProject) {
@@ -44,6 +71,9 @@ export default function Projects() {
     } else {
       document.body.style.overflow = 'auto';
     }
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
   }, [selectedProject]);
 
   if (loading) {
@@ -54,18 +84,17 @@ export default function Projects() {
     );
   }
 
-  const filteredProjects = projects.filter(p => {
-    const matchesCategory = filter === 'All' || p.category === filter;
-    const matchesSearch = p.title.toLowerCase().includes(search.toLowerCase()) || 
-                          p.description.toLowerCase().includes(search.toLowerCase());
-    return matchesCategory && matchesSearch;
-  });
-
   const colorClasses = {
     green: 'bg-green',
     amber: 'bg-amber',
     red: 'bg-red',
     black: 'bg-black',
+  };
+
+  const typeColorClasses = {
+    'AI': 'bg-amber',
+    'Web': 'bg-green',
+    'Data': 'bg-red',
   };
 
   return (
@@ -82,38 +111,53 @@ export default function Projects() {
           </div>
 
           {/* Filters */}
-          <div className="flex flex-col sm:flex-row gap-4 mb-6 sticky top-20 bg-white/95 backdrop-blur-sm py-4 z-30 border-b-2 border-black/5">
-            <div className="relative flex-1 max-w-md">
-              <Search size={20} className="absolute left-3 top-1/2 -translate-y-1/2 text-black/40" />
-              <input
-                type="text"
-                placeholder="Search projects..."
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 border-2 border-black/20 font-share-tech focus:border-amber outline-none transition-colors"
-              />
-            </div>
-            
-            <div className="flex gap-2 overflow-x-auto pb-2 sm:pb-0">
-              {categories.map((cat) => (
-                <button
-                  key={cat}
-                  onClick={() => setFilter(cat)}
-                  className={`px-4 py-2 font-share-tech text-sm whitespace-nowrap border-2 transition-all ${
-                    filter === cat 
-                      ? 'bg-black text-white border-black' 
-                      : 'bg-white text-black border-black/20 hover:border-amber'
-                  }`}
-                >
-                  {cat}
-                </button>
-              ))}
+          <div className="flex flex-col gap-4 mb-6 sticky top-20 bg-white/95 backdrop-blur-sm py-4 z-30 border-b-2 border-black/5">
+            <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center flex-wrap">
+              <div className="relative flex-1 max-w-md w-full">
+                <Search size={20} className="absolute left-3 top-1/2 -translate-y-1/2 text-black/40" />
+                <input
+                  type="text"
+                  placeholder="Search projects..."
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  className="w-full pl-10 pr-4 py-3 border-2 border-black/20 font-share-tech focus:border-amber outline-none transition-colors"
+                />
+              </div>
+
+              {/* Type Filter */}
+              <div className="flex gap-2 overflow-x-auto pb-2 sm:pb-0">
+                <span className="font-share-tech text-sm text-black/60 self-center mr-2 whitespace-nowrap">Type:</span>
+                {types.map((type) => (
+                  <button
+                    key={type}
+                    onClick={() => setTypeFilter(type)}
+                    className={`px-4 py-2 font-share-tech text-sm whitespace-nowrap border-2 transition-all ${
+                      typeFilter === type
+                        ? 'bg-black text-white border-black'
+                        : 'bg-white text-black border-black/20 hover:border-amber'
+                    }`}
+                  >
+                    {type}
+                  </button>
+                ))}
+              </div>
+
+              {/* Date Sort Toggle */}
+              <button
+                onClick={() => setSortDirection(prev => prev === 'desc' ? 'asc' : 'desc')}
+                className="flex items-center gap-2 px-4 py-2 font-share-tech text-sm border-2 border-black/20 hover:border-amber transition-all whitespace-nowrap"
+              >
+                <Calendar size={16} />
+                {sortDirection === 'desc' ? 'Most Recent' : 'Oldest First'}
+                {sortDirection === 'desc' ? <ArrowDown size={16} className="text-amber" /> : <ArrowUp size={16} className="text-amber" />}
+              </button>
             </div>
           </div>
 
           {/* Results Count */}
           <p className="b2 text-black/60 mb-6">
             Showing {filteredProjects.length} of {projects.length} projects
+            <span className="ml-2 text-black/40">• Sorted by date ({sortDirection === 'desc' ? 'most recent' : 'oldest first'})</span>
           </p>
 
           {/* Grid */}
@@ -125,27 +169,40 @@ export default function Projects() {
                 className="project-tile taped-card group cursor-pointer"
                 style={{ transform: `rotate(${index % 2 === 0 ? -1.5 : 1.5}deg)` }}
               >
-                {/* Image */}
-                <div className="relative overflow-hidden bg-amber mb-4 h-40 mx-4 mt-8">
-                  <div className="absolute inset-0 bg-gradient-to-br from-amber to-[#FF8800]" />
-                  <div className="absolute inset-0 flex items-center justify-center text-black/20 font-permanent-marker text-3xl">
-                    IMG
-                  </div>
+                {/* Image Container - Using background-image for perfect cover */}
+                <div className="relative overflow-hidden bg-amber mb-4 h-48 mx-4 mt-8">
+                  {project.image_url ? (
+                    <div
+                      className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-300 group-hover:scale-105"
+                      style={{ backgroundImage: `url(${project.image_url})` }}
+                    />
+                  ) : (
+                    <>
+                      <div className="absolute inset-0 bg-gradient-to-br from-amber to-[#FF8800]" />
+                      <div className="absolute inset-0 flex items-center justify-center text-black/20 font-permanent-marker text-3xl">
+                        IMG
+                      </div>
+                    </>
+                  )}
                 </div>
 
                 {/* Content */}
                 <div className="space-y-2 px-4 pb-6">
-                  <div className="flex items-center gap-2">
-                    <span className={`${colorClasses[project.color_tag]} b3 px-2 py-1 text-white`}>
+                  {/* Tags */}
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className={`${typeColorClasses[project.type as keyof typeof typeColorClasses] || 'bg-black'} b3 px-2 py-1 text-white`}>
+                      {project.type}
+                    </span>
+                    <span className="b3 px-2 py-1 bg-white text-black border border-black">
                       {project.category}
                     </span>
                     <span className="b3 text-black/50">{project.date}</span>
                   </div>
-                  
+
                   <h3 className="h4 line-clamp-2 group-hover:text-amber transition-colors">
                     {project.title}
                   </h3>
-                  
+
                   <p className="b2 text-black/70 line-clamp-2">
                     {project.description}
                   </p>
@@ -156,6 +213,11 @@ export default function Projects() {
                         {tech.trim()}
                       </span>
                     ))}
+                    {project.tech_stack.split(',').length > 3 && (
+                      <span className="b3 px-2 py-0.5 bg-black/5 text-black/50">
+                        +{project.tech_stack.split(',').length - 3}
+                      </span>
+                    )}
                   </div>
                 </div>
               </div>
@@ -165,11 +227,15 @@ export default function Projects() {
           {filteredProjects.length === 0 && (
             <div className="text-center py-20">
               <p className="h3 text-black/40">No projects found</p>
-              <button 
-                onClick={() => { setFilter('All'); setSearch(''); }}
+              <button
+                onClick={() => {
+                  setTypeFilter('All');
+                  setSearch('');
+                  setSortDirection('desc');
+                }}
                 className="mt-4 px-6 py-2 bg-amber font-share-tech text-sm hover:bg-black hover:text-white transition-colors"
               >
-                Clear filters
+                Clear all filters
               </button>
             </div>
           )}
@@ -178,41 +244,41 @@ export default function Projects() {
 
       {/* Project Detail Modal */}
       {selectedProject && (
-        <div 
+        <div
           className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-sm"
           onClick={() => setSelectedProject(null)}
         >
-          <div 
+          <div
             className="bg-white w-full max-w-5xl max-h-[90vh] overflow-y-auto relative taped-card"
             onClick={(e) => e.stopPropagation()}
             style={{ transform: 'rotate(0deg)' }}
           >
-            <button 
+            <button
               onClick={() => setSelectedProject(null)}
               className="absolute top-4 right-4 p-2 bg-white/80 hover:bg-amber transition-colors z-10 border-2 border-black"
             >
               <X size={24} />
             </button>
 
-            {/* Header Image */}
-            <div className={`${colorClasses[selectedProject.color_tag]} h-64 sm:h-80 relative`}>
-              <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_30%_30%,white_1px,transparent_1px)] bg-[length:20px_20px]" />
+            {/* Header - Dotted colored background */}
+            <div className={`${colorClasses[selectedProject.color_tag as keyof typeof colorClasses] || 'bg-amber'} h-64 sm:h-80 relative overflow-hidden`}>
+              <div className="absolute inset-0 opacity-30 bg-[radial-gradient(circle_at_30%_30%,white_2px,transparent_2px)] bg-[length:24px_24px]" />
               <div className="absolute inset-0 flex items-center justify-center">
-                <h2 className="h2 text-white text-center px-4">{selectedProject.title}</h2>
+                <h2 className="h2 text-white text-center px-4 drop-shadow-lg">{selectedProject.title}</h2>
               </div>
             </div>
 
             <div className="p-6 sm:p-8 lg:p-12">
               {/* Meta */}
               <div className="flex flex-wrap gap-4 mb-8 font-share-tech text-sm">
-                <span className="flex items-center gap-1">
-                  <Tag size={16} /> {selectedProject.category}
+                <span className={`flex items-center gap-1 px-3 py-1 text-white ${typeColorClasses[selectedProject.type as keyof typeof typeColorClasses] || 'bg-black'}`}>
+                  <Tag size={16} /> {selectedProject.type}
                 </span>
-                <span className="flex items-center gap-1">
+                <span className="flex items-center gap-1 px-3 py-1 bg-white text-black border border-black">
+                  {selectedProject.category}
+                </span>
+                <span className="flex items-center gap-1 text-black/60">
                   <Calendar size={16} /> {selectedProject.date}
-                </span>
-                <span className={`px-3 py-1 text-white ${colorClasses[selectedProject.color_tag]}`}>
-                  {selectedProject.type}
                 </span>
               </div>
 
@@ -259,7 +325,7 @@ export default function Projects() {
 
                   <div className="flex flex-col gap-3">
                     {selectedProject.live_url && (
-                      <a 
+                      <a
                         href={selectedProject.live_url}
                         target="_blank"
                         rel="noopener noreferrer"
@@ -269,7 +335,7 @@ export default function Projects() {
                       </a>
                     )}
                     {selectedProject.github_url && (
-                      <a 
+                      <a
                         href={selectedProject.github_url}
                         target="_blank"
                         rel="noopener noreferrer"
