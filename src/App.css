@@ -1,42 +1,218 @@
+/* ============================================================
+   App.css — Design System
+   All site-wide tokens, reusable utilities, and component styles.
+   Import once in main.tsx / App.tsx.
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   1. Design Tokens (CSS Custom Properties)
+      These mirror the Tailwind theme colours so they can also
+      be used in plain CSS / inline styles if needed.
+   ------------------------------------------------------------ */
+:root {
+  /* Brand colours */
+  --color-amber: #FFAA00;
+  --color-green: #519A66;
+  --color-red:   #E84040;
+  --color-black: #111111;
+  --color-white: #FFFFFF;
+
+  /* Surfaces */
+  --color-bg-primary:   #FFFFFF;
+  --color-bg-secondary: #F9F9F7;   /* gray-50 equivalent */
+  --color-bg-dark:      #111111;
+
+  /* Text */
+  --color-text-primary:   #111111;
+  --color-text-secondary: rgba(17, 17, 17, 0.60);
+  --color-text-muted:     rgba(17, 17, 17, 0.40);
+
+  /* Borders */
+  --color-border:       rgba(17, 17, 17, 0.20);
+  --color-border-light: rgba(17, 17, 17, 0.10);
+
+  /* Motion */
+  --transition-fast:   150ms ease;
+  --transition-base:   300ms ease;
+  --transition-slow:   600ms ease;
+
+  /* Spacing (supplements Tailwind scale) */
+  --nav-height: 4rem;          /* h-16 */
+  --nav-height-md: 5rem;       /* h-20 */
+}
+
+/* ------------------------------------------------------------
+   2. Base / Reset Overrides
+   ------------------------------------------------------------ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Remove Vite default root constraints */
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  max-width: unset;
+  margin: unset;
+  padding: unset;
+  text-align: unset;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+/* ------------------------------------------------------------
+   3. Typography Utilities
+      These classes are used throughout all components (h1–h4, b1–b3).
+      Defined here so they work outside Tailwind's JIT scope.
+   ------------------------------------------------------------ */
+
+/* Display / Headings — Permanent Marker */
+.h1 { font-family: 'Permanent Marker', cursive; font-size: clamp(2.5rem, 6vw, 5rem); line-height: 1.05; }
+.h2 { font-family: 'Permanent Marker', cursive; font-size: clamp(1.75rem, 4vw, 3rem);  line-height: 1.1;  }
+.h3 { font-family: 'Permanent Marker', cursive; font-size: clamp(1.25rem, 3vw, 2rem);  line-height: 1.15; }
+.h4 { font-family: 'Share Tech Mono', monospace; font-size: 1rem; font-weight: 700; letter-spacing: 0.01em; }
+
+/* Body — Share Tech Mono */
+.b1 { font-family: 'Share Tech Mono', monospace; font-size: 1rem;    line-height: 1.6; }
+.b2 { font-family: 'Share Tech Mono', monospace; font-size: 0.875rem; line-height: 1.5; }
+.b3 { font-family: 'Share Tech Mono', monospace; font-size: 0.75rem;  line-height: 1.4; letter-spacing: 0.02em; }
+
+/* ------------------------------------------------------------
+   4. Reusable Component Classes
+   ------------------------------------------------------------ */
+
+/* --- Taped card (used for project cards, experience cards) --- */
+.taped-card {
+  background-color: var(--color-bg-primary);
+  border: 2px solid var(--color-black);
+  position: relative;
+  box-shadow: 4px 4px 0 var(--color-black);
+  transition: box-shadow var(--transition-base), transform var(--transition-base);
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+.taped-card:hover {
+  box-shadow: 6px 6px 0 var(--color-black);
+}
+
+/* Tape strip at top (pseudo-element) */
+.taped-card::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-2deg);
+  width: 60px;
+  height: 20px;
+  background: rgba(255, 170, 0, 0.45);
+  border: 1px solid rgba(255, 170, 0, 0.6);
+  z-index: 1;
+}
+
+/* --- Chef / ticket card (used in StickyExperience) --- */
+.chef-ticket {
+  background-color: var(--color-bg-primary);
+  border: 2px solid var(--color-border);
+  box-shadow: 2px 2px 0 rgba(17, 17, 17, 0.08);
+}
+
+/* Ticket perforation line */
+.ticket-line {
+  border-top: 2px dashed var(--color-border);
+  width: 100%;
+}
+
+/* --- Paper texture overlay (used on Navigation) --- */
+.paper-texture {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Crect width='4' height='4' fill='%23ffffff'/%3E%3Crect width='1' height='1' fill='%23f0f0f0' opacity='0.5'/%3E%3C/svg%3E");
+}
+
+/* --- Text shadow retro (used on Hero h1) --- */
+.text-shadow-retro {
+  text-shadow: 3px 3px 0 var(--color-amber), 5px 5px 0 rgba(17,17,17,0.15);
+}
+
+/* ------------------------------------------------------------
+   5. Colour Utility Classes
+      Defined here so Tailwind's safelist isn't needed for
+      dynamically composed class names (e.g. bg-${color}).
+      These are the four brand colours only.
+   ------------------------------------------------------------ */
+
+/* Backgrounds */
+.bg-amber { background-color: var(--color-amber); }
+.bg-green  { background-color: var(--color-green); }
+.bg-red    { background-color: var(--color-red); }
+
+/* Text */
+.text-amber { color: var(--color-amber); }
+.text-green  { color: var(--color-green); }
+.text-red    { color: var(--color-red); }
+
+/* Borders */
+.border-amber { border-color: var(--color-amber); }
+.border-green  { border-color: var(--color-green); }
+.border-red    { border-color: var(--color-red); }
+
+/* Left border (ticket accent) */
+.border-l-amber { border-left-color: var(--color-amber); }
+.border-l-green  { border-left-color: var(--color-green); }
+.border-l-red    { border-left-color: var(--color-red); }
+.border-l-black  { border-left-color: var(--color-black); }
+
+/* Focus ring */
+.focus\:border-amber:focus { border-color: var(--color-amber); }
+
+/* ------------------------------------------------------------
+   6. Animation Keyframes
+   ------------------------------------------------------------ */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-10px); }
+}
+
+@keyframes pulse-rotate {
+  0%, 100% { transform: scale(1) rotate(-6deg); }
+  50%       { transform: scale(1.05) rotate(-6deg); }
+}
+
+@keyframes bounce-slow {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-10px); }
+}
+
+.animate-float        { animation: float 4s ease-in-out infinite; }
+.animate-pulse-rotate { animation: pulse-rotate 2s ease-in-out infinite; }
+.animate-bounce-slow  { animation: bounce-slow 1.5s ease-in-out infinite; }
+
+/* ------------------------------------------------------------
+   7. Scrollbar Hiding Utility (used in StickyExperience)
+   ------------------------------------------------------------ */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* ------------------------------------------------------------
+   8. Reduced Motion Override
+   ------------------------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  .animate-float,
+  .animate-pulse-rotate,
+  .animate-bounce-slow {
+    animation: none;
   }
-  to {
-    transform: rotate(360deg);
+
+  * {
+    transition-duration: 0.01ms !important;
   }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
 }
