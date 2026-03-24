@@ -44,30 +44,21 @@ export default function FeaturedProjects({ projects }: FeaturedProjectsProps) {
               techLimit={4}
               className="project-card-desktop"
             />
-            {/* Hover overlay on image — layered on top via absolute child in card */}
-            {/* Note: if you need the "View Details" overlay, add it inside ProjectCard
-                via an optional prop, or wrap the card here with a portal overlay. */}
           </div>
         ))}
       </div>
 
-      {/* Mobile: Sticky Stack */}
-      <div className="md:hidden relative" style={{ height: `${projects.length * 350 + 200}px` }}>
+      {/* Mobile: Simple vertical list */}
+      <div className="md:hidden flex flex-col gap-6">
         {projects.map((project, index) => (
-          <div
+          <ProjectCard
             key={project.id}
-            className="absolute w-full"
-            style={{ top: `${100 + index * 30}px`, zIndex: index + 1 }}
-          >
-            <ProjectCard
-              project={project}
-              index={index}
-              onClick={() => setSelectedProject(project)}
-              imageHeight="h-40"
-              techLimit={3}
-              className="stack-card"
-            />
-          </div>
+            project={project}
+            index={index}
+            onClick={() => setSelectedProject(project)}
+            imageHeight="h-40"
+            techLimit={3}
+          />
         ))}
       </div>
 
