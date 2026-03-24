@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -10,6 +10,17 @@ import Projects from '@/pages/Projects';
 
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    ScrollTrigger.refresh();
+  }, [pathname]);
+
+  return null;
+}
+
 function App() {
   useEffect(() => {
     ScrollTrigger.refresh();
@@ -20,6 +31,7 @@ function App() {
 
   return (
     <Router>
+      <ScrollToTop />
       <div className="min-h-screen bg-white overflow-x-hidden">
         <Navigation />
         <Routes>
