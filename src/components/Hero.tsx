@@ -123,7 +123,7 @@ export default function Hero() {
             </div>
           </div>
 
-          <div ref={contentRef} className="lg:col-span-5 xl:col-span-6 order-1 lg:order-2 hero-content">
+          <div ref={contentRef} className="xl:pl-30 lg:col-span-5 xl:col-span-6 order-1 lg:order-2 hero-content">
             <div className="inline-block mb-6 animate-pulse-rotate">
               <div className="bg-green text-white b2 px-4 py-2 border-4 border-green border-dashed">
                 OPEN TO WORK

@@ -1,9 +1,9 @@
 import { Mail, Phone, MapPin, Github, Linkedin, LayoutDashboard, Download } from 'lucide-react';
 
 const resumes = [
-  { name: 'Generalist', color: 'black', focus: 'Full background' },
-  { name: 'Frontend', color: 'green', focus: 'React/Next.js' },
-  { name: 'Data & AI', color: 'amber', focus: 'Python/ML' },
+  { name: 'All', color: 'black', focus: 'All in One', file: '/resumes/Resume All - Zi En Tham.pdf' },
+  { name: 'Web', color: 'green', focus: 'React/FrontEnd', file: '/resumes/Resume Web - Zi En Tham.pdf' },
+  { name: 'Data/AI', color: 'amber', focus: 'ML/Dashboard', file: '/resumes/Resume DataAI - Zi En Tham.pdf' },
 ];
 
 const socials = [
@@ -18,6 +18,15 @@ export default function FooterResume() {
     amber: 'bg-amber',
     red: 'bg-red',
     black: 'bg-black',
+  };
+
+  const handleDownload = (file: string, name: string) => {
+    const link = document.createElement('a');
+    link.href = file;
+    link.download = `ZiEn_Tham_${name}_Resume.pdf`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   return (
@@ -60,23 +69,24 @@ export default function FooterResume() {
           </div>
 
           <div>
-            <div className="mb-6">
+            <div className="mb-6 flex lg:justify-start justify-end">
               <h3 className="h3">Resume Hub</h3>
             </div>
             
             {/* Clean horizontal layout */}
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-3 gap-3 sm:gap-4">
               {resumes.map((resume) => (
-                <div
+                <button
                   key={resume.name}
-                  className={`${colorMap[resume.color as keyof typeof colorMap]} p-4 border-2 border-white/10 cursor-pointer transform transition-all duration-300 hover:-translate-y-2 hover:shadow-lg group`}
+                  onClick={() => handleDownload(resume.file, resume.name)}
+                  className={`${colorMap[resume.color as keyof typeof colorMap]} p-2 sm:p-4 border-2 border-white/10 cursor-pointer transform transition-all duration-300 hover:-translate-y-2 hover:shadow-lg group text-right overflow-hidden`}
                 >
-                  <div className="aspect-[3/4] mb-3 bg-white/10 flex items-center justify-center border border-dashed border-current">
-                    <Download size={20} className="opacity-50 group-hover:opacity-100 transition-opacity" />
+                  <div className="aspect-[3/4] mb-2 sm:mb-3 bg-white/10 flex items-center justify-center border border-dashed border-current">
+                    <Download size={16} className="sm:w-5 sm:h-5 opacity-50 group-hover:opacity-100 transition-opacity" />
                   </div>
-                  <h4 className="h4 mb-1 text-sm">{resume.name}</h4>
-                  <p className="b3 opacity-70 text-xs">{resume.focus}</p>
-                </div>
+                  <h4 className="h4 mb-0.5 sm:mb-1 text-xs sm:text-sm truncate">{resume.name}</h4>
+                  <p className="b3 opacity-70 text-[10px] sm:text-xs leading-tight line-clamp-2">{resume.focus}</p>
+                </button>
               ))}
             </div>
           </div>
