@@ -11,8 +11,6 @@ declare global {
   }
 }
 
-const Spline = lazy(() => import('@splinetool/react-spline'));
-
 const FallbackCrystal = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   

@@ -7,7 +7,7 @@ import FooterResume from '@/components/FooterResume';
 import Container from '@/components/ui/Container';
 import PageLoader from '@/components/ui/PageLoader';
 import { useCSVData } from '@/hooks/useCSVData';
-import { bgTextColorMap, borderColorMap } from '@/lib/Colormaps';
+import { bgTextColorMap, borderColorMap } from '@/lib/colorMaps';
 import type { Experience } from '@/types';
 
 gsap.registerPlugin(ScrollTrigger);
