@@ -1,5 +1,16 @@
 import { useEffect, useRef, useState, Suspense, lazy } from 'react';
 
+declare global {
+  namespace JSX {
+    interface IntrinsicElements {
+      'spline-viewer': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement> & {
+        url?: string;
+        'loading-anim-type'?: string;
+      }, HTMLElement>;
+    }
+  }
+}
+
 const Spline = lazy(() => import('@splinetool/react-spline'));
 
 const FallbackCrystal = () => {
@@ -54,11 +65,10 @@ const FallbackCrystal = () => {
   return <canvas ref={canvasRef} width={400} height={400} className="w-full h-full max-w-[400px] max-h-[400px]" />;
 };
 
-const SplineCrystal = ({ onError }: { onError: () => void }) => (
-  <Spline 
-    scene="https://prod.spline.design/6Wq1Q7YGyM-iab9i/scene.splinecode"
-    onError={onError}
-    className="w-full h-full"
+const SplineCrystal = () => (
+  <spline-viewer
+    url="https://prod.spline.design/FVsu1AvKPm62BE3J/scene.splinecode"
+    style={{ width: '100%', height: '100%' }}
   />
 );
 
