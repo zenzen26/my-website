@@ -145,7 +145,7 @@ export default function Hero() {
             <div className="flex flex-col sm:flex-row gap-4 mb-12">
               <button 
                 onClick={() => document.querySelector('#projects')?.scrollIntoView({ behavior: 'smooth' })}
-                className="group relative px-8 py-4 bg-red text-white b2 overflow-hidden transition-all hover:shadow-lg hover:-translate-y-1"
+                className="group relative px-8 py-4 bg-red text-white b2 overflow-hidden transition-all hover:shadow-lg hover:-translate-y-1 hover:cursor-pointer"
               >
                 <span className="relative z-10">View Projects</span>
                 <div className="absolute inset-0 bg-black transform translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
@@ -153,7 +153,7 @@ export default function Hero() {
               
               <button 
                 onClick={() => document.querySelector('#footer')?.scrollIntoView({ behavior: 'smooth' })}
-                className="px-8 py-4 border-2 border-amber text-black b2 hover:bg-amber hover:text-black transition-all hover:-translate-y-1"
+                className="px-8 py-4 border-2 border-amber text-black b2 hover:bg-amber hover:text-black transition-all hover:-translate-y-1 hover:cursor-pointer"
               >
                 Contact Me
               </button>
