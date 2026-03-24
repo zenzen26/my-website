@@ -1,6 +1,6 @@
 import { X, MapPin, Calendar, Award, Briefcase } from 'lucide-react';
 import type { Experience } from '@/types';
-import { bgColorMap } from '@/lib/Colormaps';
+import { bgColorMap } from '@/lib/colorMaps';
 
 interface ExperiencePopupProps {
   experience: Experience | null;

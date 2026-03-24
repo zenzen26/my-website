@@ -1,9 +1,3 @@
-/**
- * colorMaps.ts
- * Central source of truth for all color → Tailwind class mappings.
- * Import from here instead of redefining per-component.
- */
-
 /** Maps a color_tag value to a bg- class (used for card headers, experience badges, etc.) */
 export const bgColorMap: Record<string, string> = {
   green: 'bg-green',

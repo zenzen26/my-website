@@ -1,19 +1,8 @@
-/**
- * ProjectModal.tsx
- * Full detail view for a single project.
- * Previously duplicated (almost identically) in Projects.tsx and FeaturedProjects.tsx.
- *
- * Usage:
- *   {selectedProject && (
- *     <ProjectModal project={selectedProject} onClose={() => setSelectedProject(null)} />
- *   )}
- */
-
 import { ExternalLink, Github, Calendar, Tag } from 'lucide-react';
 import ModalOverlay from '@/components/ui/ModalOverlay';
 import TechStack from '@/components/ui/TechStack';
 import TypeBadge from '@/components/ui/TypeBadge';
-import { bgColorMap } from '@/lib/Colormaps';
+import { bgColorMap } from '@/lib/colorMaps';
 import type { Project } from '@/types';
 
 interface ProjectModalProps {

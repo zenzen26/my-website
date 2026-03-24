@@ -1,13 +1,3 @@
-/**
- * TypeBadge.tsx
- * Coloured badge for a project type (AI / Web / Data) or experience type.
- * Replaces the repeated typeColorClasses lookup + span pattern.
- *
- * Usage:
- *   <TypeBadge type={project.type} />
- *   <TypeBadge type="AI" withIcon={<Tag size={16} />} />
- */
-
 import { typeColorMap } from '@/lib/colorMaps';
 
 interface TypeBadgeProps {

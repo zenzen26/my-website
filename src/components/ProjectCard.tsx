@@ -1,12 +1,3 @@
-/**
- * ProjectCard.tsx
- * The "taped card" tile used in both the Projects grid and the FeaturedProjects grid/stack.
- * Previously duplicated with minor differences between the two pages.
- *
- * Usage:
- *   <ProjectCard project={p} index={index} onClick={() => setSelected(p)} imageHeight="h-48" />
- */
-
 import TypeBadge from '@/components/ui/TypeBadge';
 import TechStack from '@/components/ui/TechStack';
 import type { Project } from '@/types';
@@ -15,9 +6,7 @@ interface ProjectCardProps {
   project: Project;
   index: number;
   onClick: () => void;
-  /** Tailwind height class for the image area. Default: h-48 */
   imageHeight?: string;
-  /** How many tech pills to show before "+N". Default: 3 */
   techLimit?: number;
   className?: string;
 }

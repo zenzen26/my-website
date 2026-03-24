@@ -1,14 +1,3 @@
-/**
- * TechStack.tsx
- * Renders a comma-separated tech stack string as pill badges.
- * Replaces the repeated pattern across Projects, FeaturedProjects,
- * ExperiencePopup, StickyExperience, and About.
- *
- * Usage:
- *   <TechStack stack={project.tech_stack} />
- *   <TechStack stack={exp.tech_stack} limit={3} variant="bordered" />
- */
-
 interface TechStackProps {
   /** Comma-separated tech string, e.g. "React, TypeScript, Tailwind" */
   stack: string;

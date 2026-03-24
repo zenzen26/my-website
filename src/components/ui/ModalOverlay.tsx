@@ -1,14 +1,3 @@
-/**
- * ModalOverlay.tsx
- * Dark backdrop + centred white card with close button.
- * Replaces the duplicated modal structure in Projects.tsx and FeaturedProjects.tsx.
- *
- * Usage:
- *   <ModalOverlay onClose={close}>
- *     <p>Modal content here</p>
- *   </ModalOverlay>
- */
-
 import { useEffect } from 'react';
 import { X } from 'lucide-react';
 
