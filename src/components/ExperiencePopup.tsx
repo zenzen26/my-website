@@ -59,7 +59,7 @@ export default function ExperiencePopup({ experience, onClose }: ExperiencePopup
             <div>
               <h3 className="h4 mb-3">Responsibilities</h3>
               <ul className="list-disc list-inside b1 text-black/80 space-y-2">
-                {experience.responsibilities.split('.').filter((r) => r.trim()).map((resp, i) => (
+                {experience.responsibilities.split(/\.(?:\s+|$)/).filter((r) => r.trim()).map((resp, i) => (
                   <li key={i}>{resp.trim()}</li>
                 ))}
               </ul>
@@ -72,7 +72,7 @@ export default function ExperiencePopup({ experience, onClose }: ExperiencePopup
                 <Award size={18} /> Achievements
               </h3>
               <ul className="list-disc list-inside b1 text-black/80 space-y-2">
-                {experience.achievements.split('.').filter((a) => a.trim()).map((ach, i) => (
+                {experience.achievements.split(/\.(?:\s+|$)/).filter((a) => a.trim()).map((ach, i) => (
                   <li key={i}>{ach.trim()}</li>
                 ))}
               </ul>

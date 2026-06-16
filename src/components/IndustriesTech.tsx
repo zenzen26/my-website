@@ -6,19 +6,20 @@ import { bgTextColorMap, borderColorMap } from '@/lib/colorMaps';
 gsap.registerPlugin(ScrollTrigger);
 
 const industries = [
-  { name: 'Health Tech', color: 'green', tagline: 'Impact through data & AI' },
-  { name: 'FinTech', color: 'green', tagline: 'Simplifying finance through data' },
+  { name: 'Web Dev', color: 'green', tagline: 'Building attractive web experiences' },
+  { name: 'Server & DevOps', color: 'green', tagline: 'Reliable, scalable infrastructure' },
+  { name: 'AI Automation', color: 'black', tagline: 'Smart workflows with n8n' },
+  { name: 'FinTech', color: 'black', tagline: 'Simplifying finance through tech' },
   { name: 'Analyst', color: 'black', tagline: 'Turning data into insight' },
-  { name: 'Web Dev', color: 'black', tagline: 'Building attractive web experiences' },
-  { name: 'Data Viz', color: 'black', tagline: 'Visualizing data, revealing insights' },
 ];
 
 const skills = {
   Frontend: { color: 'green', items: ['React', 'TypeScript', 'Tailwind CSS', 'ThreeJS', 'GSAP'] },
-  Backend: { color: 'amber', items: ['PHP', 'Python', 'PostgreSQL', 'NextJS', 'Redis', 'REST APIs'] },
+  Backend: { color: 'amber', items: ['PHP', 'Python', 'MySQL', 'PostgreSQL', 'NextJS', 'Redis', 'REST APIs'] },
+  'Server & DevOps': { color: 'green', items: ['Docker', 'Nginx', 'Traefik', 'GitHub Actions', 'Cloudflare', 'Linux', 'MariaDB'] },
+  'AI & Automation': { color: 'black', items: ['n8n', 'LangChain', 'TensorFlow', 'PyTorch', 'scikit-learn'] },
   Analytics: { color: 'red', items: ['Pandas', 'SQL', 'Tableau', 'PowerBI', 'Excel'] },
-  AI: { color: 'black', items: ['TensorFlow', 'PyTorch', 'scikit-learn', 'n8n', 'LangChain'] },
-  Other: { color: 'green', items: ['Git', 'Docker', 'Vercel', 'Vite', 'Figma', 'Spline', 'Framer', 'Wordpress'] },
+  Other: { color: 'black', items: ['Git', 'Vercel', 'Vite', 'Figma', 'Spline', 'Framer', 'Wordpress'] },
 };
 
 interface IndustriesTechStackProps {

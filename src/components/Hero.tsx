@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState, Suspense, lazy } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
-declare global {
+declare module 'react' {
   namespace JSX {
     interface IntrinsicElements {
       'spline-viewer': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement> & {
@@ -9,6 +9,25 @@ declare global {
       }, HTMLElement>;
     }
   }
+}
+
+const SPLINE_VIEWER_SRC = 'https://unpkg.com/@splinetool/viewer@1.12.70/build/spline-viewer.js';
+
+// Load the heavy Spline web-component script once, on demand. Returns a promise
+// that resolves when <spline-viewer> is registered.
+let splineScriptPromise: Promise<void> | null = null;
+function loadSplineViewer(): Promise<void> {
+  if (splineScriptPromise) return splineScriptPromise;
+  splineScriptPromise = new Promise<void>((resolve, reject) => {
+    if (customElements.get('spline-viewer')) return resolve();
+    const script = document.createElement('script');
+    script.type = 'module';
+    script.src = SPLINE_VIEWER_SRC;
+    script.onload = () => resolve();
+    script.onerror = () => reject(new Error('Failed to load spline-viewer'));
+    document.head.appendChild(script);
+  });
+  return splineScriptPromise;
 }
 
 const FallbackCrystal = () => {
@@ -70,8 +89,46 @@ const SplineCrystal = () => (
   />
 );
 
+// Loads the Spline script only once the container is near the viewport, then
+// swaps the fallback canvas for the real scene. Falls back permanently on error.
+const LazySpline = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [ready, setReady] = useState(false);
+  const [failed, setFailed] = useState(false);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    let cancelled = false;
+    const start = () => {
+      loadSplineViewer()
+        .then(() => { if (!cancelled) setReady(true); })
+        .catch(() => { if (!cancelled) setFailed(true); });
+    };
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          observer.disconnect();
+          start();
+        }
+      },
+      { rootMargin: '200px' }
+    );
+    observer.observe(el);
+
+    return () => { cancelled = true; observer.disconnect(); };
+  }, []);
+
+  return (
+    <div ref={containerRef} className="w-full h-full flex items-center justify-center">
+      {ready && !failed ? <SplineCrystal /> : <FallbackCrystal />}
+    </div>
+  );
+};
+
 export default function Hero() {
-  const [splineError, setSplineError] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -110,13 +167,7 @@ export default function Hero() {
           <div className="lg:col-span-7 xl:col-span-6 relative order-2 lg:order-1">
             <div className="animate-float relative w-full h-[50vh] md:h-[60vh] lg:h-[70vh] xl:h-[80vh] flex items-center justify-center">
               <div className="spline-container absolute inset-0 lg:-left-12 xl:-left-24 flex items-center justify-center">
-                {!splineError ? (
-                  <Suspense fallback={<FallbackCrystal />}>
-                    <SplineCrystal onError={() => setSplineError(true)} />
-                  </Suspense>
-                ) : (
-                  <FallbackCrystal />
-                )}
+                <LazySpline />
               </div>
               <div className="absolute top-10 right-10 w-20 h-20 bg-amber/20 rounded-full blur-xl animate-pulse pointer-events-none" />
               <div className="absolute bottom-20 left-10 w-16 h-16 bg-green/20 rounded-full blur-xl animate-pulse delay-700 pointer-events-none" />
@@ -135,11 +186,11 @@ export default function Hero() {
             </h1>
 
             <p className="b1 text-amber mb-6">
-              Web & AI Developer
+              Web Developer & Server Engineer
             </p>
 
             <p className="b1 text-black/80 max-w-md mb-8 leading-relaxed">
-              Web, AI, and data visualization. I turn complexity into clarity while combining technology, design, and creativity to build engaging digital experiences.
+              Full-stack web development, server management, and AI workflow automation with n8n. I build and ship reliable systems end to end, combining technology, design, and creativity to deliver engaging digital experiences.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 mb-12">
@@ -160,7 +211,7 @@ export default function Hero() {
             </div>
 
             <div className="flex flex-wrap gap-2 b3">
-              {['React', 'TypeScript', 'Node.js', 'Python', 'Tailwind'].map((tech) => (
+              {['React', 'TypeScript', 'Docker', 'n8n', 'PHP'].map((tech) => (
                 <span 
                   key={tech} 
                   className="px-3 py-1 bg-black/5 border border-black/10 hover:bg-amber/20 hover:border-amber transition-colors cursor-default"
