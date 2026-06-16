@@ -135,11 +135,11 @@ export default function Hero() {
             </h1>
 
             <p className="b1 text-amber mb-6">
-              Web & AI Developer
+              Web Developer & Server Engineer
             </p>
 
             <p className="b1 text-black/80 max-w-md mb-8 leading-relaxed">
-              Web, AI, and data visualization. I turn complexity into clarity while combining technology, design, and creativity to build engaging digital experiences.
+              Full-stack web development, server management, and AI workflow automation with n8n. I build and ship reliable systems end to end, combining technology, design, and creativity to deliver engaging digital experiences.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 mb-12">
@@ -160,7 +160,7 @@ export default function Hero() {
             </div>
 
             <div className="flex flex-wrap gap-2 b3">
-              {['React', 'TypeScript', 'Node.js', 'Python', 'Tailwind'].map((tech) => (
+              {['React', 'TypeScript', 'Docker', 'n8n', 'PHP'].map((tech) => (
                 <span 
                   key={tech} 
                   className="px-3 py-1 bg-black/5 border border-black/10 hover:bg-amber/20 hover:border-amber transition-colors cursor-default"

@@ -40,10 +40,10 @@ export default function About() {
               </h1>
               <div className="space-y-6 b1 text-black/80 leading-relaxed">
                 <p>
-                  I'm a computing science graduate specializing in <b className="bg-amber">AI & Data Analytics</b>, with experience applying AI and machine learning in clinical laboratory settings. I enjoy using data to solve real-world problems and aim to leverage AI to improve healthcare outcomes.
+                  I'm a computing science graduate specializing in <b className="bg-amber">full-stack web development</b> and <b className="bg-amber">server management</b>. I build and ship complete systems end to end, from React/TypeScript frontends and PHP backends to Dockerized infrastructure, CI/CD pipelines, and the servers that keep them running reliably.
                 </p>
                 <p>
-                  I'm also fascinated by biology and medicine, including topics like genomics, RNA, and DNA, and enjoy reading about these areas to stay inspired. I'm drawn to the creative side of technology as well, with interests in art, drawing, <b className="bg-amber">web design</b>, and <b className="bg-amber">data visualization</b>, where design and information come together to tell clear, engaging stories.
+                  I also design <b className="bg-amber">AI workflows with n8n</b>, automating real-world processes and connecting tools into smart, hands-off pipelines. Data analytics and AI modeling round out my toolkit, supporting the products I build rather than driving them. I'm drawn to the creative side of technology too, with interests in art, drawing, and <b className="bg-amber">web design</b>, where design and engineering come together to tell clear, engaging stories.
                 </p>
                 <p>
                   Outside work, I spend time with cats, explore new ideas, and occasionally enjoy a mocha to power through a busy day. I enjoy building projects that balance utility and aesthetics while reflecting curiosity and creativity.
