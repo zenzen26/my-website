@@ -90,8 +90,11 @@ const SplineCrystal = () => (
   />
 );
 
-// Loads the Spline script only once the container is near the viewport, then
-// swaps the fallback canvas for the real scene. Falls back permanently on error.
+// Loads the heavy Spline scene without putting it on the critical path.
+// The lightweight <FallbackCrystal> canvas is the LCP element and paints
+// immediately; the ~640 KB Spline viewer (plus its wasm and remote fonts)
+// is only fetched once the page is idle AND the container is in view, so it
+// upgrades the visual after first paint instead of blocking it.
 const LazySpline = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [ready, setReady] = useState(false);
@@ -108,11 +111,20 @@ const LazySpline = () => {
         .catch(() => { if (!cancelled) setFailed(true); });
     };
 
+    // Defer to idle time so Spline never competes with LCP/first paint.
+    const whenIdle = (cb: () => void) => {
+      const ric = (window as Window & {
+        requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number;
+      }).requestIdleCallback;
+      if (ric) ric(cb, { timeout: 3000 });
+      else setTimeout(cb, 1500);
+    };
+
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries.some((e) => e.isIntersecting)) {
           observer.disconnect();
-          start();
+          whenIdle(start);
         }
       },
       { rootMargin: '200px' }
@@ -133,31 +145,28 @@ export default function Hero() {
   const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const style = document.createElement('style');
-    style.textContent = `
-      @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } }
-      @keyframes pulse { 0%, 100% { transform: scale(1) rotate(-6deg); } 50% { transform: scale(1.05) rotate(-6deg); } }
-      @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-      .animate-float { animation: float 4s ease-in-out infinite; }
-      .animate-pulse-rotate { animation: pulse 2s ease-in-out infinite; }
-      .animate-bounce-slow { animation: bounce 1.5s ease-in-out infinite; }
-    `;
-    document.head.appendChild(style);
+    // Staggered reveal of the hero content. The keyframe/animation classes
+    // (animate-float / -pulse-rotate / -bounce-slow) live in Hero.css, so no
+    // runtime <style> injection is needed here. Batch the initial write and
+    // the reveal write into single rAF passes to avoid layout thrash.
+    const el = contentRef.current;
+    if (!el) return;
+    const children = Array.from(el.children) as HTMLElement[];
 
-    if (contentRef.current) {
-      const children = contentRef.current.children;
-      Array.from(children).forEach((child, index) => {
-        (child as HTMLElement).style.opacity = '0';
-        (child as HTMLElement).style.transform = 'translateY(20px)';
-        (child as HTMLElement).style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
-        setTimeout(() => {
-          (child as HTMLElement).style.opacity = '1';
-          (child as HTMLElement).style.transform = 'translateY(0)';
-        }, 100);
+    children.forEach((child, index) => {
+      child.style.opacity = '0';
+      child.style.transform = 'translateY(20px)';
+      child.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
+    });
+
+    const raf = requestAnimationFrame(() => {
+      children.forEach((child) => {
+        child.style.opacity = '1';
+        child.style.transform = 'translateY(0)';
       });
-    }
+    });
 
-    return () => { document.head.removeChild(style); };
+    return () => cancelAnimationFrame(raf);
   }, []);
 
   return (
