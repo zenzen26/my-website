@@ -55,7 +55,7 @@ export default function Home() {
             {/* Photo */}
             <div className="lg:col-span-6 relative order-2 lg:order-1">
               <div className="relative">
-                <div className="bg-amber aspect-[4/5] max-w-md mx-auto relative overflow-hidden border-4 border-black shadow-2xl transform rotate-2">
+                <div className="bg-amber aspect-[4/5] max-w-md mx-auto relative overflow-hidden border-4 border-black shadow-2xl transform -rotate-2">
                   <div className="absolute inset-0 bg-gradient-to-br from-amber to-[#FF8800]" />
                   <img src="/images/cat.jpg" alt="Zenzen" className="absolute inset-0 w-full h-full object-cover" />
                   <div className="absolute bottom-0 left-0 right-0 bg-white p-6 text-center">
@@ -63,7 +63,7 @@ export default function Home() {
                     <p className="b3 text-black/40 mt-1">Sydney, NSW</p>
                   </div>
                 </div>
-                <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-32 h-8 bg-amber/30 transform -rotate-2" />
+                <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-32 h-8 bg-amber/30 transform rotate-2" />
               </div>
             </div>
 

@@ -49,24 +49,25 @@ export default function StickyAnchor() {
   };
 
   return (
-    <div className="fixed right-4 sm:right-8 top-1/2 -translate-y-1/2 z-40 hidden md:block">
-      <div className="flex flex-col gap-4">
+    <div className="fixed right-4 sm:right-8 top-1/2 -translate-y-1/2 z-50 hidden md:block pointer-events-none">
+      <div className="flex flex-col gap-2">
         {sections.map((section) => (
           <button
             key={section.id}
             onClick={() => scrollToSection(section.id)}
-            className={`group flex items-center gap-3 transition-all duration-300 ${
-              activeSection === section.id ? 'opacity-100' : 'opacity-30 hover:opacity-60'
+            aria-label={section.label}
+            className={`group pointer-events-auto cursor-pointer flex items-center justify-end gap-3 py-2 pl-6 transition-all duration-300 ${
+              activeSection === section.id ? 'opacity-100' : 'opacity-40 hover:opacity-70'
             }`}
           >
-            <span className={`w-px h-6 transition-all duration-300 ${
-              activeSection === section.id ? 'bg-amber scale-y-125' : 'bg-gray-400'
-            }`} />
             <span className={`font-share-tech text-xs transition-all duration-300 ${
               activeSection === section.id ? 'translate-x-0 opacity-100 text-amber' : '-translate-x-2 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 text-gray-500'
             }`}>
               {section.label}
             </span>
+            <span className={`w-px h-6 transition-all duration-300 ${
+              activeSection === section.id ? 'bg-amber scale-y-125' : 'bg-gray-400'
+            }`} />
           </button>
         ))}
       </div>

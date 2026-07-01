@@ -138,7 +138,7 @@ export default function Navigation() {
       {/* Backdrop */}
       {isMobileMenuOpen && (
         <div 
-          className="lg:hidden fixed inset-0 bg-black/20 z-[55]"
+          className="lg:hidden fixed inset-0 bg-black/20 z-[55] cursor-pointer"
           style={{ top: '64px' }}
           onClick={() => setIsMobileMenuOpen(false)}
         />
