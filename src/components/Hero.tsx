@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import './Hero.css';
 
 declare module 'react' {
   namespace JSX {
