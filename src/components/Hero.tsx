@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import './Hero.css';
 
 declare module 'react' {
   namespace JSX {
@@ -30,57 +31,14 @@ function loadSplineViewer(): Promise<void> {
   return splineScriptPromise;
 }
 
-const FallbackCrystal = () => {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-    
-    let rotation = 0;
-    let animationId: number;
-    let isActive = true;
-    
-    const draw = () => {
-      if (!isActive) return;
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.save();
-      ctx.translate(canvas.width / 2, canvas.height / 2);
-      ctx.rotate(rotation);
-      
-      ctx.beginPath();
-      ctx.moveTo(0, -100);
-      ctx.lineTo(87, -50);
-      ctx.lineTo(87, 50);
-      ctx.lineTo(0, 100);
-      ctx.lineTo(-87, 50);
-      ctx.lineTo(-87, -50);
-      ctx.closePath();
-      
-      const gradient = ctx.createLinearGradient(-87, -100, 87, 100);
-      gradient.addColorStop(0, '#000000');
-      gradient.addColorStop(0.5, '#FFAA00');
-      gradient.addColorStop(1, '#519A66');
-      
-      ctx.fillStyle = gradient;
-      ctx.fill();
-      ctx.strokeStyle = '#FFAA00';
-      ctx.lineWidth = 3;
-      ctx.stroke();
-      
-      ctx.restore();
-      rotation += 0.005;
-      animationId = requestAnimationFrame(draw);
-    };
-    
-    draw();
-    return () => { isActive = false; cancelAnimationFrame(animationId); };
-  }, []);
-  
-  return <canvas ref={canvasRef} width={400} height={400} className="w-full h-full max-w-[400px] max-h-[400px]" />;
-};
+// Minimal loading placeholder: a soft, pulsing brand-colored orb shown while
+// the Spline viewer script loads (and permanently if it fails). Zero network
+// cost; the pulse is a pure CSS animation.
+const SplinePlaceholder = () => (
+  <div className="w-full h-full flex items-center justify-center">
+    <div className="w-40 h-40 sm:w-56 sm:h-56 rounded-full bg-gradient-to-br from-amber/40 to-green/40 blur-2xl animate-pulse" />
+  </div>
+);
 
 const SplineCrystal = () => (
   <spline-viewer
@@ -89,41 +47,24 @@ const SplineCrystal = () => (
   />
 );
 
-// Loads the Spline script only once the container is near the viewport, then
-// swaps the fallback canvas for the real scene. Falls back permanently on error.
-const LazySpline = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
+// Eagerly loads the Spline viewer on mount so the 3D scene appears as soon as
+// possible. A lightweight pulsing placeholder holds the space until the viewer
+// script is registered, and stays permanently if the script fails to load.
+const EagerSpline = () => {
   const [ready, setReady] = useState(false);
   const [failed, setFailed] = useState(false);
 
   useEffect(() => {
-    const el = containerRef.current;
-    if (!el) return;
-
     let cancelled = false;
-    const start = () => {
-      loadSplineViewer()
-        .then(() => { if (!cancelled) setReady(true); })
-        .catch(() => { if (!cancelled) setFailed(true); });
-    };
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries.some((e) => e.isIntersecting)) {
-          observer.disconnect();
-          start();
-        }
-      },
-      { rootMargin: '200px' }
-    );
-    observer.observe(el);
-
-    return () => { cancelled = true; observer.disconnect(); };
+    loadSplineViewer()
+      .then(() => { if (!cancelled) setReady(true); })
+      .catch(() => { if (!cancelled) setFailed(true); });
+    return () => { cancelled = true; };
   }, []);
 
   return (
-    <div ref={containerRef} className="w-full h-full flex items-center justify-center">
-      {ready && !failed ? <SplineCrystal /> : <FallbackCrystal />}
+    <div className="w-full h-full flex items-center justify-center">
+      {ready && !failed ? <SplineCrystal /> : <SplinePlaceholder />}
     </div>
   );
 };
@@ -132,31 +73,28 @@ export default function Hero() {
   const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const style = document.createElement('style');
-    style.textContent = `
-      @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } }
-      @keyframes pulse { 0%, 100% { transform: scale(1) rotate(-6deg); } 50% { transform: scale(1.05) rotate(-6deg); } }
-      @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-      .animate-float { animation: float 4s ease-in-out infinite; }
-      .animate-pulse-rotate { animation: pulse 2s ease-in-out infinite; }
-      .animate-bounce-slow { animation: bounce 1.5s ease-in-out infinite; }
-    `;
-    document.head.appendChild(style);
+    // Staggered reveal of the hero content. The keyframe/animation classes
+    // (animate-float / -pulse-rotate / -bounce-slow) live in Hero.css, so no
+    // runtime <style> injection is needed here. Batch the initial write and
+    // the reveal write into single rAF passes to avoid layout thrash.
+    const el = contentRef.current;
+    if (!el) return;
+    const children = Array.from(el.children) as HTMLElement[];
 
-    if (contentRef.current) {
-      const children = contentRef.current.children;
-      Array.from(children).forEach((child, index) => {
-        (child as HTMLElement).style.opacity = '0';
-        (child as HTMLElement).style.transform = 'translateY(20px)';
-        (child as HTMLElement).style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
-        setTimeout(() => {
-          (child as HTMLElement).style.opacity = '1';
-          (child as HTMLElement).style.transform = 'translateY(0)';
-        }, 100);
+    children.forEach((child, index) => {
+      child.style.opacity = '0';
+      child.style.transform = 'translateY(20px)';
+      child.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
+    });
+
+    const raf = requestAnimationFrame(() => {
+      children.forEach((child) => {
+        child.style.opacity = '1';
+        child.style.transform = 'translateY(0)';
       });
-    }
+    });
 
-    return () => { document.head.removeChild(style); };
+    return () => cancelAnimationFrame(raf);
   }, []);
 
   return (
@@ -167,7 +105,7 @@ export default function Hero() {
           <div className="lg:col-span-7 xl:col-span-6 relative order-2 lg:order-1">
             <div className="animate-float relative w-full h-[50vh] md:h-[60vh] lg:h-[70vh] xl:h-[80vh] flex items-center justify-center">
               <div className="spline-container absolute inset-0 lg:-left-12 xl:-left-24 flex items-center justify-center">
-                <LazySpline />
+                <EagerSpline />
               </div>
               <div className="absolute top-10 right-10 w-20 h-20 bg-amber/20 rounded-full blur-xl animate-pulse pointer-events-none" />
               <div className="absolute bottom-20 left-10 w-16 h-16 bg-green/20 rounded-full blur-xl animate-pulse delay-700 pointer-events-none" />

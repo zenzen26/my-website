@@ -1,4 +1,34 @@
-@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Share+Tech+Mono&display=swap');
+/* ============================================================
+   global.css — Shared, site-wide styles
+   Loaded once in main.tsx. Contains:
+     - Self-hosted font @font-face declarations (WOFF2)
+     - Tailwind import + @theme tokens
+     - Base typography (h1–h4, b1–b3) and resets
+     - Utilities shared across MORE THAN ONE page/component
+   Component/page-specific rules live in co-located CSS files
+   (e.g. Hero.css, Navigation.css, StickyExperience.css).
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   Self-hosted fonts (WOFF2) — replaces the Google Fonts CDN.
+   Files live in /public/fonts and are preloaded in index.html.
+   ------------------------------------------------------------ */
+@font-face {
+  font-family: 'Permanent Marker';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/permanent-marker-v16-latin-400.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Share Tech Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/share-tech-mono-v16-latin-400.woff2') format('woff2');
+}
+
 @import "tailwindcss";
 
 html, body {
@@ -26,7 +56,7 @@ canvas {
   --breakpoint-4xl: 1920px;
 }
 
-/* Base Typography - Performance Marker Headers (h1-h4) */
+/* Base Typography - Permanent Marker Headers (h1-h4) */
 h1, h2, h3, h4, .h1, .h2, .h3, .h4 {
   font-family: "Permanent Marker", cursive;
   font-weight: 400;
@@ -57,13 +87,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Utility Classes */
+/* Font-family utilities (used across Navigation, ProjectCard, Projects, etc.) */
 .font-permanent-marker { font-family: "Permanent Marker", cursive; }
 .font-share-tech { font-family: "Share Tech Mono", monospace; }
 
-.text-shadow-retro { text-shadow: 3px 3px 0px rgba(0, 0, 0, 0.1); }
-
-/* Hero "OPEN TO WORK" badge pulse (used on the Home hero) */
+/* Hero "OPEN TO WORK" badge pulse (used on the Home hero, which does not
+   import the component-scoped Hero.css). */
 @keyframes pulse-rotate {
   0%, 100% { transform: scale(1) rotate(-6deg); }
   50%      { transform: scale(1.05) rotate(-6deg); }
@@ -72,9 +101,12 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .animate-pulse-rotate { animation: none; }
 }
-.paper-texture { background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.08'/%3E%3C/svg%3E"); }
 
-/* Taped Card Style */
+/* ------------------------------------------------------------
+   Shared component utility: taped-card
+   Used by more than one component (ProjectCard, ModalOverlay),
+   so it stays in the shared global stylesheet.
+   ------------------------------------------------------------ */
 .taped-card {
   background: white;
   border: 2px solid black;
@@ -103,110 +135,9 @@ body {
   box-shadow: 8px 8px 0 rgba(0,0,0,0.15);
 }
 
-/* Sticky Stack Cards for Mobile */
-.stack-card {
-  position: sticky;
-  top: 100px;
-  transform-origin: center top;
-}
-
-/* Chef Ticket Style */
-.chef-ticket {
-  background: white;
-  border: 2px solid black;
-  position: relative;
-  box-shadow: 2px 2px 0 rgba(0,0,0,0.1);
-  transform: rotate(-1deg);
-  transition: all 0.3s ease;
-}
-
-.chef-ticket::before {
-  content: '';
-  position: absolute;
-  top: -15px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 60px;
-  height: 30px;
-  background: repeating-linear-gradient(
-    90deg,
-    transparent,
-    transparent 5px,
-    rgba(0,0,0,0.1) 5px,
-    rgba(0,0,0,0.1) 8px
-  );
-  border-bottom: 2px solid rgba(0,0,0,0.2);
-}
-
-.chef-ticket:hover {
-  transform: rotate(0deg) translateY(-5px);
-  box-shadow: 4px 4px 0 rgba(0,0,0,0.15);
-}
-
-.ticket-line {
-  background: repeating-linear-gradient(
-    90deg,
-    #333,
-    #333 2px,
-    transparent 2px,
-    transparent 20px
-  );
-  height: 4px;
-  margin: 20px 0;
-  position: relative;
-}
-
-.ticket-line::before,
-.ticket-line::after {
-  content: '';
-  position: absolute;
-  top: -8px;
-  width: 20px;
-  height: 20px;
-  background: #333;
-  border-radius: 50%;
-}
-
-.ticket-line::before { left: -10px; }
-.ticket-line::after { right: -10px; }
-
-/* Resume Fan Cards */
-.resume-fan {
-  perspective: 1000px;
-}
-
-.resume-card {
-  transition: all 0.4s ease;
-  transform-style: preserve-3d;
-}
-
-.resume-card:nth-child(1) {
-  transform: rotateY(-15deg) translateX(20px);
-  z-index: 1;
-}
-
-.resume-card:nth-child(2) {
-  transform: translateZ(30px);
-  z-index: 3;
-}
-
-.resume-card:nth-child(3) {
-  transform: rotateY(15deg) translateX(-20px);
-  z-index: 1;
-}
-
-.resume-card:hover {
-  transform: rotateY(0deg) translateZ(50px) scale(1.05) !important;
-  z-index: 10 !important;
-}
-
-/* Animations */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-.animate-fadeIn { animation: fadeIn 0.3s ease-out forwards; }
-
+/* ------------------------------------------------------------
+   Global box model + media resets
+   ------------------------------------------------------------ */
 * { box-sizing: border-box; }
 img, canvas, video { max-width: 100%; height: auto; display: block; }
 

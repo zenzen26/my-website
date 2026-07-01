@@ -57,7 +57,7 @@ export default function Home() {
               <div className="relative">
                 <div className="bg-amber aspect-[4/5] max-w-md mx-auto relative overflow-hidden border-4 border-black shadow-2xl transform -rotate-2">
                   <div className="absolute inset-0 bg-gradient-to-br from-amber to-[#FF8800]" />
-                  <img src="/images/cat.jpg" alt="Zenzen" className="absolute inset-0 w-full h-full object-cover" />
+                  <img src="/images/cat.webp" alt="Zenzen" className="absolute inset-0 w-full h-full object-cover" />
                   <div className="absolute bottom-0 left-0 right-0 bg-white p-6 text-center">
                     <p className="b2 text-black/60">zenzen @ 2024</p>
                     <p className="b3 text-black/40 mt-1">Sydney, NSW</p>

@@ -4,6 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Calendar, ArrowRight } from 'lucide-react';
 import type { Experience } from '@/types';
 import ExperiencePopup from './ExperiencePopup';
+import './StickyExperience.css';
 
 gsap.registerPlugin(ScrollTrigger);
 

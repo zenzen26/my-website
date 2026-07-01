@@ -1,11 +1,15 @@
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, lazy, Suspense } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 import Navigation from '@/components/Navigation';
-import Home from '@/pages/Home';
-import Projects from '@/pages/Projects';
+import PageLoader from '@/components/ui/PageLoader';
+
+// Page-level code splitting: each page (and its heavy deps) is loaded on
+// demand only when its route is visited.
+const Home = lazy(() => import('@/pages/Home'));
+const Projects = lazy(() => import('@/pages/Projects'));
 
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
@@ -33,10 +37,12 @@ function App() {
       <ScrollToTop />
       <div className="min-h-screen bg-white overflow-x-hidden">
         <Navigation />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/projects" element={<Projects />} />
-        </Routes>
+        <Suspense fallback={<PageLoader />}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/projects" element={<Projects />} />
+          </Routes>
+        </Suspense>
       </div>
     </Router>
   );
