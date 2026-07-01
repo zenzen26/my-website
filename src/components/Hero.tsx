@@ -31,55 +31,13 @@ function loadSplineViewer(): Promise<void> {
   return splineScriptPromise;
 }
 
-// Lightweight, zero-network hero fallback: a cat head drawn in SVG using the
-// brand palette. Shown instantly as the LCP element while Spline loads (and
-// permanently if Spline fails). No canvas / rAF loop — the gentle float is a
-// pure CSS animation, so it costs nothing on the main thread.
-const FallbackCatHead = () => (
-  <svg
-    viewBox="0 0 200 200"
-    role="img"
-    aria-label="Cat mascot"
-    className="w-full h-full max-w-[400px] max-h-[400px] animate-float"
-  >
-    <defs>
-      <linearGradient id="cat-face" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0" stopColor="#FFAA00" />
-        <stop offset="1" stopColor="#519A66" />
-      </linearGradient>
-    </defs>
-
-    {/* Ears */}
-    <path d="M45 70 L40 25 L85 55 Z" fill="url(#cat-face)" stroke="#000" strokeWidth="4" strokeLinejoin="round" />
-    <path d="M155 70 L160 25 L115 55 Z" fill="url(#cat-face)" stroke="#000" strokeWidth="4" strokeLinejoin="round" />
-    {/* Inner ears */}
-    <path d="M52 62 L50 38 L74 54 Z" fill="#DA3D20" />
-    <path d="M148 62 L150 38 L126 54 Z" fill="#DA3D20" />
-
-    {/* Head */}
-    <ellipse cx="100" cy="112" rx="62" ry="56" fill="url(#cat-face)" stroke="#000" strokeWidth="4" />
-
-    {/* Eyes */}
-    <ellipse cx="78" cy="104" rx="9" ry="12" fill="#000" />
-    <ellipse cx="122" cy="104" rx="9" ry="12" fill="#000" />
-    <circle cx="81" cy="100" r="3" fill="#FFF" />
-    <circle cx="125" cy="100" r="3" fill="#FFF" />
-
-    {/* Nose */}
-    <path d="M100 118 L94 126 L106 126 Z" fill="#DA3D20" stroke="#000" strokeWidth="2" strokeLinejoin="round" />
-
-    {/* Mouth */}
-    <path d="M100 126 Q92 136 84 130" fill="none" stroke="#000" strokeWidth="3" strokeLinecap="round" />
-    <path d="M100 126 Q108 136 116 130" fill="none" stroke="#000" strokeWidth="3" strokeLinecap="round" />
-
-    {/* Whiskers */}
-    <g stroke="#000" strokeWidth="3" strokeLinecap="round">
-      <path d="M60 116 L26 110" />
-      <path d="M60 124 L28 126" />
-      <path d="M140 116 L174 110" />
-      <path d="M140 124 L172 126" />
-    </g>
-  </svg>
+// Minimal loading placeholder: a soft, pulsing brand-colored orb shown while
+// the Spline viewer script loads (and permanently if it fails). Zero network
+// cost; the pulse is a pure CSS animation.
+const SplinePlaceholder = () => (
+  <div className="w-full h-full flex items-center justify-center">
+    <div className="w-40 h-40 sm:w-56 sm:h-56 rounded-full bg-gradient-to-br from-amber/40 to-green/40 blur-2xl animate-pulse" />
+  </div>
 );
 
 const SplineCrystal = () => (
@@ -89,80 +47,24 @@ const SplineCrystal = () => (
   />
 );
 
-// Loads the heavy Spline scene well after the page is usable, so its ~640 KB
-// viewer, wasm runtime and remote 3D fonts never enter the initial critical
-// path or the measured load window. The lightweight <FallbackCatHead> is the
-// LCP element and paints immediately; Spline upgrades the visual only after:
-//   1. the window 'load' event has fired (all critical resources done), then
-//   2. the browser goes idle OR the user interacts OR a 4s timeout elapses,
-//      whichever comes first — and only while the container is in view.
-// If Spline fails, the cat head stays permanently.
-const LazySpline = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
+// Eagerly loads the Spline viewer on mount so the 3D scene appears as soon as
+// possible. A lightweight pulsing placeholder holds the space until the viewer
+// script is registered, and stays permanently if the script fails to load.
+const EagerSpline = () => {
   const [ready, setReady] = useState(false);
   const [failed, setFailed] = useState(false);
 
   useEffect(() => {
-    const el = containerRef.current;
-    if (!el) return;
-
     let cancelled = false;
-    let inView = false;
-
-    const start = () => {
-      if (cancelled) return;
-      loadSplineViewer()
-        .then(() => { if (!cancelled) setReady(true); })
-        .catch(() => { if (!cancelled) setFailed(true); });
-    };
-
-    const observer = new IntersectionObserver(
-      (entries) => { inView = entries.some((e) => e.isIntersecting); },
-      { rootMargin: '200px' }
-    );
-    observer.observe(el);
-
-    // Fire start() once, but only if the hero is (or comes) into view.
-    let started = false;
-    const maybeStart = () => {
-      if (started || cancelled) return;
-      if (!inView) return;
-      started = true;
-      start();
-    };
-
-    // Schedule the deferred load after the page has fully loaded.
-    const scheduleDeferred = () => {
-      const ric = (window as Window & {
-        requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number;
-      }).requestIdleCallback;
-      if (ric) ric(maybeStart, { timeout: 4000 });
-      else setTimeout(maybeStart, 2000);
-
-      // Also upgrade eagerly on first user interaction (scroll/pointer/key).
-      const onInteract = () => maybeStart();
-      const opts = { once: true, passive: true } as const;
-      window.addEventListener('scroll', onInteract, opts);
-      window.addEventListener('pointerdown', onInteract, opts);
-      window.addEventListener('keydown', onInteract, opts);
-    };
-
-    if (document.readyState === 'complete') {
-      scheduleDeferred();
-    } else {
-      window.addEventListener('load', scheduleDeferred, { once: true });
-    }
-
-    return () => {
-      cancelled = true;
-      observer.disconnect();
-      window.removeEventListener('load', scheduleDeferred);
-    };
+    loadSplineViewer()
+      .then(() => { if (!cancelled) setReady(true); })
+      .catch(() => { if (!cancelled) setFailed(true); });
+    return () => { cancelled = true; };
   }, []);
 
   return (
-    <div ref={containerRef} className="w-full h-full flex items-center justify-center">
-      {ready && !failed ? <SplineCrystal /> : <FallbackCatHead />}
+    <div className="w-full h-full flex items-center justify-center">
+      {ready && !failed ? <SplineCrystal /> : <SplinePlaceholder />}
     </div>
   );
 };
@@ -203,7 +105,7 @@ export default function Hero() {
           <div className="lg:col-span-7 xl:col-span-6 relative order-2 lg:order-1">
             <div className="animate-float relative w-full h-[50vh] md:h-[60vh] lg:h-[70vh] xl:h-[80vh] flex items-center justify-center">
               <div className="spline-container absolute inset-0 lg:-left-12 xl:-left-24 flex items-center justify-center">
-                <LazySpline />
+                <EagerSpline />
               </div>
               <div className="absolute top-10 right-10 w-20 h-20 bg-amber/20 rounded-full blur-xl animate-pulse pointer-events-none" />
               <div className="absolute bottom-20 left-10 w-16 h-16 bg-green/20 rounded-full blur-xl animate-pulse delay-700 pointer-events-none" />
