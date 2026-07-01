@@ -5,7 +5,6 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 import Navigation from '@/components/Navigation';
 import Home from '@/pages/Home';
-import About from '@/pages/About';
 import Projects from '@/pages/Projects';
 
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
@@ -36,7 +35,6 @@ function App() {
         <Navigation />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
           <Route path="/projects" element={<Projects />} />
         </Routes>
       </div>

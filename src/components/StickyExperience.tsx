@@ -166,10 +166,10 @@ export default function StickyExperience({ experiences, showEndCard = true }: St
                     <h3 className="h4 mb-4 text-black">That's all!</h3>
                     <p className="b2 text-black/70 mb-6">Want to see more?</p>
                     <a
-                      href="/about"
+                      href="#footer"
                       className="inline-block px-6 py-3 bg-black text-white b2 hover:bg-white hover:text-black transition-colors border-2 border-black"
                     >
-                      View Full Story →
+                      Get In Touch →
                     </a>
                   </div>
                 </div>
