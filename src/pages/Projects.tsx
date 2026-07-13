@@ -22,7 +22,14 @@ export default function Projects() {
 
   const types = useMemo(() => {
     if (!projects.length) return ['All'];
-    return ['All', ...[...new Set(projects.map((p) => p.type))].sort()];
+    // Fixed display order; any unexpected type is appended alphabetically after.
+    const order = ['Web', 'Data', 'AI'];
+    const present = [...new Set(projects.map((p) => p.type))];
+    const ordered = [
+      ...order.filter((t) => present.includes(t)),
+      ...present.filter((t) => !order.includes(t)).sort(),
+    ];
+    return ['All', ...ordered];
   }, [projects]);
 
   const filteredProjects = useMemo(() => {
